@@ -6,3 +6,4 @@ contextBridge.exposeInMainWorld('radar', {
   export: payload => ipcRenderer.invoke('export', payload),
   external: name => ipcRenderer.invoke('external', name)
 });
+

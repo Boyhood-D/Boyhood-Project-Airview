@@ -3,10 +3,10 @@ const { app, BrowserWindow, ipcMain, dialog, shell } = require('electron');
 const fs = require('node:fs');
 const path = require('node:path');
 const { traffic } = require('./network.cjs');
-const dataDir = path.join(app.isPackaged ? path.dirname(app.getPath('exe')) : app.getAppPath(), 'BoyhoodRadar-data');
+const dataDir = path.join(app.isPackaged ? path.dirname(app.getPath('exe')) : app.getAppPath(), 'Airview-data');
 try { fs.mkdirSync(dataDir, { recursive: true }); app.setPath('userData', dataDir); app.setPath('sessionData', path.join(dataDir, 'cache')); }
-catch { dialog.showErrorBox('Dossier non accessible', 'Extrais Boyhood Radar dans un dossier où tu peux écrire, puis relance-le.'); app.exit(1); }
-app.setAppUserModelId('Boyhood.Radar');
+catch { dialog.showErrorBox('Dossier non accessible', 'Extrais Airview dans un dossier où tu peux écrire, puis relance-le.'); app.exit(1); }
+app.setAppUserModelId('Airview.Desktop');
 // Canvas rendering does not need a discrete GPU. This avoids black windows on
 // remote desktops and some Windows graphics drivers while preserving Chromium's sandbox.
 app.disableHardwareAcceleration();
@@ -17,7 +17,7 @@ let win;
 const settingsPath = path.join(dataDir, 'settings.json');
 function loadSettings() { try { return JSON.parse(fs.readFileSync(settingsPath, 'utf8')); } catch { return {}; } }
 app.whenReady().then(() => {
-  win = new BrowserWindow({ width: 1500, height: 960, minWidth: 1040, minHeight: 700, backgroundColor: '#080e19', title: 'Boyhood Radar', autoHideMenuBar: true,
+  win = new BrowserWindow({ width: 1500, height: 960, minWidth: 1040, minHeight: 700, backgroundColor: '#080e19', title: 'Airview', autoHideMenuBar: true,
     webPreferences: { preload: path.join(__dirname, 'preload.cjs'), contextIsolation: true, nodeIntegration: false, sandbox: true, spellcheck: false } });
   win.webContents.setWindowOpenHandler(() => ({ action: 'deny' }));
   win.webContents.on('will-navigate', e => e.preventDefault());
@@ -25,7 +25,7 @@ app.whenReady().then(() => {
   win.webContents.on('did-fail-load', (_event, code, description) => diagnostic('Load error: '+code+' '+description));
   win.webContents.on('render-process-gone', (_event, details) => diagnostic('Renderer stopped: '+details.reason));
   win.webContents.on('console-message', (_event, details) => { if(details.level === 'error') diagnostic('Renderer: '+details.message); });
-  diagnostic('Starting Boyhood Radar '+app.getVersion());
+  diagnostic('Starting Airview '+app.getVersion());
   win.loadFile(path.join(__dirname, 'index.html')).catch(error=>diagnostic('Page load failed: '+error.message));
 });
 app.on('window-all-closed', () => app.quit());
@@ -38,7 +38,7 @@ ipcMain.handle('settings:write', (_event, settings) => {
 ipcMain.handle('export', async (_event, payload) => {
   if (!payload || typeof payload.content !== 'string' || payload.content.length > 20000000) return false;
   const ext = payload.format === 'json' ? 'json' : 'csv';
-  const save = await dialog.showSaveDialog(win, { defaultPath: `BoyhoodRadar-${new Date().toISOString().slice(0, 10)}.${ext}`, filters: [{ name: ext.toUpperCase(), extensions: [ext] }] });
+  const save = await dialog.showSaveDialog(win, { defaultPath: `Airview-${new Date().toISOString().slice(0, 10)}.${ext}`, filters: [{ name: ext.toUpperCase(), extensions: [ext] }] });
   if (save.canceled) return false;
   try { fs.writeFileSync(save.filePath, payload.content, 'utf8'); return true; } catch { return false; }
 });
@@ -46,3 +46,4 @@ ipcMain.handle('external', (_event, name) => {
   const links = { adsb: 'https://www.adsb.lol', opensky: 'https://opensky-network.org', github: 'https://github.com/Boyhood-D/Boyhood-Project-private' };
   if (links[name]) shell.openExternal(links[name]);
 });
+

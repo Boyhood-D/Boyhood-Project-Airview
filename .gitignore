@@ -3,3 +3,6 @@ dist/
 BoyhoodRadar-data/
 *.log
 test-results/
+
+
+release-dist/

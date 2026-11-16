@@ -1,12 +1,12 @@
-# Boyhood Radar
+# Airview
 
 Une application Windows portable et gratuite pour explorer le trafic aérien public. Interface française, carte mondiale embarquée, ambiance radar et aucune clé API requise.
 
 ## Télécharger et démarrer
 
-Dans **Releases**, télécharger `BoyhoodRadar-1.0.0-Windows-x64.zip`, extraire **tout** le ZIP puis ouvrir `BoyhoodRadar.exe` dans le dossier extrait. Windows 10/11 x64 ; connexion Internet nécessaire pour recevoir les avions. Aucune installation, aucun abonnement. L'exécutable n'est pas signé commercialement : Windows peut afficher un avertissement d'origine. Vérifier le SHA-256 fourni avant utilisation.
+Dans **Releases**, télécharger `Airview-1.1.0-Windows-x64.zip`, extraire **tout** le ZIP puis ouvrir `Airview.exe` dans le dossier extrait. Windows 10/11 x64 ; connexion Internet nécessaire pour recevoir les avions. Aucune installation, aucun abonnement. L'exécutable n'est pas signé commercialement : Windows peut afficher un avertissement d'origine. Vérifier le SHA-256 fourni avant utilisation.
 
-L'application crée `BoyhoodRadar-data` à côté de l'exécutable pour ses préférences et son cache Chromium. Extraire dans un dossier accessible en écriture. Pour désinstaller, fermer l'application et supprimer son dossier. Aucun enregistrement dans le registre, aucune télémétrie. L'historique de trafic reste en mémoire et disparaît à la fermeture, sauf export explicite.
+L'application crée `Airview-data` à côté de l'exécutable pour ses préférences et son cache Chromium. Extraire dans un dossier accessible en écriture. Pour désinstaller, fermer l'application et supprimer son dossier. Aucun enregistrement dans le registre, aucune télémétrie. L'historique de trafic reste en mémoire et disparaît à la fermeture, sauf export explicite.
 
 ## Ce qui fonctionne
 
@@ -16,9 +16,9 @@ L'application crée `BoyhoodRadar-data` à côté de l'exécutable pour ses pré
 - Indicatif, ICAO, position, altitude barométrique, vitesse sol, cap vrai, vitesse verticale, squawk ; immatriculation, modèle, Mach et mesures de vent/température si fournis par la source.
 - Recherche multichamp, tri, altitude et vitesse, appareils en vol, codes spéciaux et filtre de visibilité.
 - Sélection, suivi de l'appareil, favoris persistants, traînées de positions réellement reçues.
-- Pause et relecture des 40 derniers relevés de la session. Pas d'historique antérieur au démarrage.
+- Pause et relecture de jusqu’à 40 relevés de la session (plafond de 120 000 rapports pour limiter la mémoire). Pas d'historique antérieur au démarrage.
 - Export CSV / JSON des appareils filtrés avec attribution et unités explicites.
-- Thèmes nuit, phosphore, jour ; unités aviation ou métriques ; animations désactivables ; cadence 15/30/60 images/s.
+- Thèmes nuit, phosphore, jour ; unités aviation ou métriques ; animations désactivables ; cadence 15/30/60 images/s, 60 par défaut, compteur FPS et temps de dessin p95.
 - Application isolée : pas de Node dans l'interface, pas de navigation distante, pas d'automise à jour ni de code téléchargé à l'exécution.
 
 ## Comprendre les sources gratuites
@@ -32,6 +32,12 @@ La couverture dépend des récepteurs, de l'altitude, des pays et des politiques
 Les aéroports sont une sélection de repères, sans pistes ou procédures. Aucun horaire, itinéraire commercial, identité de passager, plan de vol ou séparation réglementaire n'est déduit. Le pays OpenSky est celui associé à l'adresse ICAO, pas une provenance du vol. Les couleurs classent l'altitude ; les codes 7500/7600/7700 sont les valeurs transpondeur reçues, non des alertes opérationnelles validées.
 
 **Usage personnel d'observation. Ce logiciel n'est pas un système de contrôle aérien et ne doit jamais servir à la navigation ou à la sécurité des vols.** Les données restent soumises aux licences et conditions de leurs fournisseurs ; gratuit ne signifie pas disponibilité garantie.
+
+## Nouveautés Airview 1.1
+
+Le moteur prépare les coordonnées et les déplacements une fois par relevé, utilise des sprites d’avions précalculés et calcule chaque distance une seule fois par tri. Les panneaux ne sont reconstruits que si leurs données changent. Le déplacement entre deux observations est lissé pendant 900 ms et reste une estimation, bornée par la projection de 15 secondes. Le rendu passe au repos si aucun mouvement ou balayage n’est nécessaire et s’arrête lorsque la fenêtre est masquée.
+
+Les données portables sont maintenant dans `Airview-data`. Pour conserver les anciens favoris, copier manuellement `settings.json` de `BoyhoodRadar-data` dans `Airview-data`, application fermée. Ne pas remplacer les sous-dossiers cache. Voir `PERFORMANCE.md` pour les mesures et leurs limites.
 
 ## Raccourcis
 
@@ -67,3 +73,4 @@ La construction Windows x64 copie la distribution officielle Electron et assembl
 - https://openskynetwork.github.io/opensky-api/rest.html
 - https://www.naturalearthdata.com/about/terms-of-use/
 - Voir `THIRD_PARTY_NOTICES.md` pour les attributions.
+

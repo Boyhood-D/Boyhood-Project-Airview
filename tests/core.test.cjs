@@ -31,3 +31,4 @@ test('CSV escapes quotes, lines and formula injection',()=>{
   const output=C.csv([{id:'=1+1',callsign:'A"B\nC',altitude:0}]);assert.ok(output.includes('"\'=1+1"'));assert.ok(output.includes('"A""B\nC"'));assert.ok(output.includes('"0"'));
 });
 test('normalizers fail closed on provider schema errors',()=>{assert.throws(()=>C.normalizeAdsb({aircraft:[]}));assert.throws(()=>C.normalizeAdsb(null));assert.equal(C.validPosition(NaN,0),false);assert.equal(C.validPosition(90,180),true);});
+

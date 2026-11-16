@@ -11,7 +11,7 @@ async function traffic(query) {
   nextAllowed.set(provider, now + interval);
   const url = provider === 'opensky' ? 'https://opensky-network.org/api/states/all' : `https://api.adsb.lol/v2/point/${lat.toFixed(4)}/${lon.toFixed(4)}/250`;
   try {
-    const res = await fetch(url, { signal: AbortSignal.timeout(20000), headers: { 'User-Agent': 'BoyhoodRadar/1.0 (personal aviation enthusiast)' } });
+    const res = await fetch(url, { signal: AbortSignal.timeout(20000), headers: { 'User-Agent': 'Airview/1.0 (personal aviation enthusiast)' } });
     if (!res.ok) {
       const rawRetry = res.headers.get('retry-after') || res.headers.get('x-rate-limit-retry-after-seconds');
       const parsed = Number(rawRetry), delay = Number.isFinite(parsed) && parsed > 0 ? Math.min(86400, Math.max(interval / 1000, parsed)) : res.status === 429 ? 900 : 60;
@@ -21,8 +21,9 @@ async function traffic(query) {
     const data = await res.json(), receivedAt = Date.now();
     return { ok: true, provider, receivedAt, aircraft: provider === 'adsb' ? normalizeAdsb(data, receivedAt) : normalizeOpenSky(data, receivedAt), quota: res.headers.get('x-rate-limit-remaining'), retryAfter: interval / 1000 };
   } catch (e) {
-    console.warn('[Boyhood Radar] Provider request failed:', e.name, e.cause?.code || e.message);
+    console.warn('[Airview] Provider request failed:', e.name, e.cause?.code || e.message);
     return { ok: false, message: e.name === 'TimeoutError' ? 'Le fournisseur ne répond pas. Nouvelle tentative dans une minute.' : 'Connexion indisponible. Vérifie Internet ou réessaie plus tard.', retryAfter: 60 };
   }
 }
 module.exports = { traffic };
+

@@ -27,4 +27,5 @@ L'accès aux données est soumis aux conditions d'utilisation et à l'autorisati
 
 ## Code et graphismes de l'application
 
-Code propre à Boyhood Radar : MIT, voir LICENSE. Silhouette d'avion et éléments graphiques dessinés pour cette application. Les quelques coordonnées d'aéroports servent uniquement de repères géographiques.
+Code propre à Airview : MIT, voir LICENSE. Silhouette d'avion et éléments graphiques dessinés pour cette application. Les quelques coordonnées d'aéroports servent uniquement de repères géographiques.
+

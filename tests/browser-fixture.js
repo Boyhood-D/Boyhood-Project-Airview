@@ -1,0 +1,7 @@
+/* Development-only synthetic stress test. Not copied into the Windows package. */
+'use strict';
+const benchCount=Math.min(20000,Math.max(100,Number(new URLSearchParams(location.search).get('benchmark'))||10000));
+let seed=42;const random=()=>{seed=(1664525*seed+1013904223)>>>0;return seed/4294967296;};
+const fixture=Array.from({length:benchCount},(_,i)=>({id:i.toString(16).padStart(6,'0'),callsign:'TEST'+i,registration:'TEST ONLY',model:'SYNTHETIC',country:'Test synthétique',lat:-55+random()*125,lon:-175+random()*350,altitude:random()*42000,speed:200+random()*350,heading:random()*360,ground:false,verticalRate:0,squawk:'1000',source:'TEST SYNTHÉTIQUE'}));
+window.airviewBenchmark={traffic:async()=>{const now=Date.now();return {ok:true,provider:'opensky',receivedAt:now,retryAfter:15,aircraft:fixture.map(a=>({...a,observedAt:now}))};},readSettings:async()=>({provider:'opensky',sector:'world',center:[25,8],zoom:1.9,fps:60,mode:'radar',labels:true,prediction:true}),writeSettings:async()=>true,export:async()=>true,external:()=>{}};
+const note=document.createElement('div');note.id='benchmark-note';note.textContent='TEST SYNTHÉTIQUE · '+benchCount+' appareils · aucun vol réel';note.style.cssText='position:fixed;top:89px;left:50%;transform:translateX(-50%);z-index:100;padding:6px 12px;border:1px solid #c98b3e;background:#241d13;color:#f4c88d;border-radius:20px;font:10px Segoe UI;pointer-events:none';document.body.append(note);

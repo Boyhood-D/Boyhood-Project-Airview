@@ -14,5 +14,6 @@ http.createServer(async (req,res) => {
   const relative = url.pathname === '/' ? 'src/index.html' : decodeURIComponent(url.pathname).replace(/^\//,'');
   const file = path.resolve(root,relative);
   if(!file.startsWith(root+path.sep)){res.writeHead(403);res.end();return;}
-  try{const data=fs.readFileSync(file);res.writeHead(200,{'Content-Type':types[path.extname(file)]||'application/octet-stream'});res.end(data);}catch{res.writeHead(404);res.end('Not found');}
-}).listen(4173,'127.0.0.1',()=>console.log('Boyhood Radar preview: http://127.0.0.1:4173/src/index.html'));
+  try{let data=fs.readFileSync(file);if(path.extname(file)==='.html'&&url.searchParams.has('benchmark'))data=Buffer.from(data.toString().replace('<script src="renderer.js"></script>','<script src="../tests/browser-fixture.js"></script><script src="renderer.js"></script>')); res.writeHead(200,{'Content-Type':types[path.extname(file)]||'application/octet-stream'});res.end(data);}catch{res.writeHead(404);res.end('Not found');}
+}).listen(4173,'127.0.0.1',()=>console.log('Airview preview: http://127.0.0.1:4173/src/index.html'));
+

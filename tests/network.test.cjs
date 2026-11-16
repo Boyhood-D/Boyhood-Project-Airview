@@ -8,3 +8,4 @@ test('429 respects retry delay and reports no synthetic traffic',async()=>{
   const original=global.fetch;global.fetch=async()=>({ok:false,status:429,headers:new Headers({'retry-after':'1800'})});
   try{const {traffic}=require('../src/network.cjs');const result=await traffic({provider:'opensky',lat:0,lon:0});assert.equal(result.ok,false);assert.equal(result.retryAfter,1800);assert.equal(result.aircraft,undefined);}finally{global.fetch=original;}
 });
+
