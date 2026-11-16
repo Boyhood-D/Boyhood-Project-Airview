@@ -1,0 +1,48 @@
+'use strict';
+const { app, BrowserWindow, ipcMain, dialog, shell } = require('electron');
+const fs = require('node:fs');
+const path = require('node:path');
+const { traffic } = require('./network.cjs');
+const dataDir = path.join(app.isPackaged ? path.dirname(app.getPath('exe')) : app.getAppPath(), 'BoyhoodRadar-data');
+try { fs.mkdirSync(dataDir, { recursive: true }); app.setPath('userData', dataDir); app.setPath('sessionData', path.join(dataDir, 'cache')); }
+catch { dialog.showErrorBox('Dossier non accessible', 'Extrais Boyhood Radar dans un dossier où tu peux écrire, puis relance-le.'); app.exit(1); }
+app.setAppUserModelId('Boyhood.Radar');
+// Canvas rendering does not need a discrete GPU. This avoids black windows on
+// remote desktops and some Windows graphics drivers while preserving Chromium's sandbox.
+app.disableHardwareAcceleration();
+const diagnosticPath = path.join(dataDir, 'diagnostics.log');
+function diagnostic(message) { try { if(fs.existsSync(diagnosticPath) && fs.statSync(diagnosticPath).size > 100000) fs.writeFileSync(diagnosticPath,''); fs.appendFileSync(diagnosticPath,new Date().toISOString()+' '+message+'\n'); } catch {} }
+process.on('uncaughtException', error => diagnostic('Main error: '+error.message));
+let win;
+const settingsPath = path.join(dataDir, 'settings.json');
+function loadSettings() { try { return JSON.parse(fs.readFileSync(settingsPath, 'utf8')); } catch { return {}; } }
+app.whenReady().then(() => {
+  win = new BrowserWindow({ width: 1500, height: 960, minWidth: 1040, minHeight: 700, backgroundColor: '#080e19', title: 'Boyhood Radar', autoHideMenuBar: true,
+    webPreferences: { preload: path.join(__dirname, 'preload.cjs'), contextIsolation: true, nodeIntegration: false, sandbox: true, spellcheck: false } });
+  win.webContents.setWindowOpenHandler(() => ({ action: 'deny' }));
+  win.webContents.on('will-navigate', e => e.preventDefault());
+  win.webContents.session.setPermissionRequestHandler((_web, _permission, callback) => callback(false));
+  win.webContents.on('did-fail-load', (_event, code, description) => diagnostic('Load error: '+code+' '+description));
+  win.webContents.on('render-process-gone', (_event, details) => diagnostic('Renderer stopped: '+details.reason));
+  win.webContents.on('console-message', (_event, details) => { if(details.level === 'error') diagnostic('Renderer: '+details.message); });
+  diagnostic('Starting Boyhood Radar '+app.getVersion());
+  win.loadFile(path.join(__dirname, 'index.html')).catch(error=>diagnostic('Page load failed: '+error.message));
+});
+app.on('window-all-closed', () => app.quit());
+ipcMain.handle('traffic', (_event, query) => traffic(query));
+ipcMain.handle('settings:read', () => loadSettings());
+ipcMain.handle('settings:write', (_event, settings) => {
+  if (!settings || typeof settings !== 'object' || JSON.stringify(settings).length > 100000) return false;
+  try { const temp = settingsPath + '.tmp'; fs.writeFileSync(temp, JSON.stringify(settings, null, 2)); fs.renameSync(temp, settingsPath); return true; } catch { return false; }
+});
+ipcMain.handle('export', async (_event, payload) => {
+  if (!payload || typeof payload.content !== 'string' || payload.content.length > 20000000) return false;
+  const ext = payload.format === 'json' ? 'json' : 'csv';
+  const save = await dialog.showSaveDialog(win, { defaultPath: `BoyhoodRadar-${new Date().toISOString().slice(0, 10)}.${ext}`, filters: [{ name: ext.toUpperCase(), extensions: [ext] }] });
+  if (save.canceled) return false;
+  try { fs.writeFileSync(save.filePath, payload.content, 'utf8'); return true; } catch { return false; }
+});
+ipcMain.handle('external', (_event, name) => {
+  const links = { adsb: 'https://www.adsb.lol', opensky: 'https://opensky-network.org', github: 'https://github.com/Boyhood-D/Boyhood-Project-private' };
+  if (links[name]) shell.openExternal(links[name]);
+});
