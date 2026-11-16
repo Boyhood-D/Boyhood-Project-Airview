@@ -53,7 +53,7 @@ async function requestTraffic(){
       const slider=$('timeline');slider.max=String(Math.max(0,snapshots.length-1));if(!replay)slider.value=slider.max;
       if(selected&&!traffic.some(a=>a.id===selected)){following=false;}
       const quota=result.quota;$('provider-label').title=quota==null?'Quota restant non communiqué':`${quota} crédits publics restants`;
-    }else{lastError=result.message;connectionState='error';}
+    }else if(result.pending){connectionState=lastReceived?'live':'loading';}else{lastError=result.message;connectionState='error';}
     nextFetch=Date.now()+Math.max(result.retryAfter||15,provider==='opensky'?60:settings.interval)*1000;
   }catch{if(version===generation){lastError='La connexion a échoué. Nouvelle tentative dans une minute.';connectionState='error';nextFetch=Date.now()+60000;}}
   finally{fetching=false;$('refresh').disabled=false;if(version!==generation){requestTraffic();}updatePanels(true);}

@@ -6,7 +6,7 @@ async function traffic(query) {
   const lat = Number(query.lat), lon = Number(query.lon);
   if (!Number.isFinite(lat) || !Number.isFinite(lon) || Math.abs(lat) > 85 || Math.abs(lon) > 180) throw new Error('Centre radar invalide.');
   const now = Date.now(), next = nextAllowed.get(provider) || 0;
-  if (now < next) return { ok: false, message: 'Temporisation du fournisseur.', retryAfter: Math.ceil((next - now) / 1000) };
+  if (now < next) return { ok: false, pending: true, message: 'Temporisation du fournisseur.', retryAfter: Math.ceil((next - now) / 1000) };
   const interval = provider === 'opensky' ? 60000 : 15000;
   nextAllowed.set(provider, now + interval);
   const url = provider === 'opensky' ? 'https://opensky-network.org/api/states/all' : `https://api.adsb.lol/v2/point/${lat.toFixed(4)}/${lon.toFixed(4)}/250`;
