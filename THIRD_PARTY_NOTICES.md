@@ -29,3 +29,23 @@ L'accès aux données est soumis aux conditions d'utilisation et à l'autorisati
 
 Code propre à Airview : MIT, voir LICENSE. Silhouette d'avion et éléments graphiques dessinés pour cette application. Les quelques coordonnées d'aéroports servent uniquement de repères géographiques.
 
+
+## Three.js, satellite.js et tz-lookup
+
+Three.js 0.187.0 (MIT), https://github.com/mrdoob/three.js ; satellite.js 7.2.0 (MIT), https://github.com/shashwatak/satellite-js ; tz-lookup 6.1.25 (CC0-1.0), https://github.com/darkskyapp/tz-lookup. Textes des licences inclus dans assets/licenses. Les bibliothèques sont compilées localement ; aucune exécution de scripts distants. esbuild 0.28.2 (MIT) est uniquement un outil de compilation.
+
+## NASA : imagerie et élévation
+
+Image terrestre NASA Blue Marble diffusée dans les exemples officiels Three.js : https://github.com/mrdoob/three.js/blob/master/examples/textures/planets/earth_atmos_2048.jpg. Élévation globale NASA / GEBCO, 5400 × 2700, 0–6400 m : https://science.nasa.gov/earth/earth-observatory/blue-marble-next-generation/topography-bathymetry-maps/ ; imagerie par Jesse Allen, NASA Earth Observatory, données GEBCO / British Oceanographic Data Centre. Image téléchargée depuis assets.science.nasa.gov ; URL et SHA-256 dans assets/sources.json. Usage des images selon https://www.nasa.gov/nasa-brand-center/images-and-media/ ; aucun logo NASA, aucune affiliation ou approbation implicite. Les couleurs et le relief sont adaptés dans le shader.
+
+## CelesTrak
+
+https://celestrak.org/NORAD/documentation/gp-data-formats.php ; https://celestrak.org/usage-policy.php. Catalogue GP actif au format OMM JSON, téléchargé à l’exécution et mis en cache au minimum deux heures. En cas d’erreur, pas de nouvelles tentatives pendant deux heures. Aucun catalogue orbital ni base de données CelesTrak n’est embarqué dans la distribution. Gratuité d’accès, pas de déclaration de domaine public sur ces données. Le calcul SGP4 fournit une estimation, sensible à l’âge des éléments.
+
+## OurAirports
+
+https://ourairports.com/data/ — données dans le domaine public. Source airports.csv : https://github.com/davidmegginson/ourairports-data. Transformation en JSON, suppression des installations fermées et sélection de champs pour la recherche locale ; fichier préparé à la compilation et embarqué. Les informations peuvent être incomplètes ou anciennes.
+
+## ADSBdb et routes indicatives
+
+https://www.adsbdb.com ; documentation https://github.com/mrjackwills/adsbdb. Consultation personnelle d’un appareil et d’un callsign à la sélection ; cache de session en mémoire. Selon le fournisseur, les données de routes sont le travail de David Taylor (Edinburgh) et Jim Mason (Glasgow) et ne doivent pas être copiées, publiées ou incorporées dans une autre base sans leur autorisation explicite. Airview n’embarque, ne publie et n’exporte aucune base de routes. Les routes indicatives ne constituent pas une validation du vol actuel. Le code de la bibliothèque ou de l’API n’accorde pas une licence implicite sur toutes les données.

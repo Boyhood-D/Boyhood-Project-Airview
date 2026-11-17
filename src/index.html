@@ -8,7 +8,7 @@
 <body>
 <header class="topbar">
   <a class="brand" href="#" aria-label="Airview accueil"><span class="brand-mark"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="17"/><path d="M24 5v38M5 24h38"/><path class="mark-plane" d="m31 12-5 18-4-5-6-3Z"/></svg></span><span>AIRVIEW<span class="brand-sub">A CLEARER VIEW OF THE SKY</span></span></a>
-  <div class="mode-switch" aria-label="Mode de carte"><button data-mode="map" class="active">Carte mondiale</button><button data-mode="radar">Radar ATC</button></div>
+  <div class="mode-switch" aria-label="Mode de carte"><button data-mode="map" class="active">Carte mondiale</button><a class="small-button" href="globe.html">Globe 3D ↗</a><button data-mode="radar">Radar ATC</button></div>
   <div class="top-right"><span id="performance-label" class="performance-label" aria-label="Performance du radar">—</span><span class="utc" id="utc">--:--:-- UTC</span><button class="icon-button" id="help" title="Aide et raccourcis (H)" aria-label="Aide">?</button><button class="icon-button" id="settings" title="Personnaliser" aria-label="Réglages">⚙</button></div>
 </header>
 <main>
@@ -28,7 +28,7 @@
     </section>
     <div class="sort-line"><span id="list-caption">TRAFIC REÇU</span><select id="sort" aria-label="Trier le trafic"><option value="distance">Distance ↑</option><option value="altitude">Altitude ↓</option><option value="speed">Vitesse ↓</option><option value="callsign">Indicatif A–Z</option></select></div>
     <div id="aircraft-list" role="list" aria-label="Liste des appareils"><div class="empty-list">Connexion au réseau public…</div></div>
-    <div class="sidebar-bottom"><button id="export-button">↓ Exporter le trafic</button><span>v1.1.0 · WINDOWS</span></div>
+    <div class="sidebar-bottom"><button id="export-button">↓ Exporter le trafic</button><span>v2.0.0 · WINDOWS</span></div>
   </aside>
   <section class="map-area" aria-label="Carte interactive du trafic aérien">
     <canvas id="radar-canvas" tabindex="0" aria-label="Radar : glisser pour déplacer, molette pour zoomer, cliquer sur un avion pour le sélectionner"></canvas>

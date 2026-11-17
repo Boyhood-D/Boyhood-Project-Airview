@@ -1,76 +1,58 @@
-# Airview
+# Airview 2.0 — Earth & Orbit
 
-Une application Windows portable et gratuite pour explorer le trafic aérien public. Interface française, carte mondiale embarquée, ambiance radar et aucune clé API requise.
+Application Windows portable gratuite pour explorer le trafic aérien public et les orbites des satellites. Interface française, globe 3D local, carte 2D et radar ATC d’observation. Aucun abonnement, clé API ou compte requis.
 
-## Télécharger et démarrer
+## Télécharger
 
-Dans **Releases**, télécharger `Airview-1.1.0-Windows-x64.zip`, extraire **tout** le ZIP puis ouvrir `Airview.exe` dans le dossier extrait. Windows 10/11 x64 ; connexion Internet nécessaire pour recevoir les avions. Aucune installation, aucun abonnement. L'exécutable n'est pas signé commercialement : Windows peut afficher un avertissement d'origine. Vérifier le SHA-256 fourni avant utilisation.
+Dans [Releases](https://github.com/Boyhood-D/Boyhood-Project-Airview/releases), télécharger **Airview-2.0.0-Windows-x64.zip**, extraire **tout** le ZIP, puis ouvrir **Airview.exe**. Windows 10/11 x64. Internet nécessaire pour les données récentes. Le fichier SHA-256 permet de vérifier le téléchargement. Exécutable non signé commercialement : Windows peut afficher un avertissement d’origine.
 
-L'application crée `Airview-data` à côté de l'exécutable pour ses préférences et son cache Chromium. Extraire dans un dossier accessible en écriture. Pour désinstaller, fermer l'application et supprimer son dossier. Aucun enregistrement dans le registre, aucune télémétrie. L'historique de trafic reste en mémoire et disparaît à la fermeture, sauf export explicite.
+## Explorer
 
-## Ce qui fonctionne
+- Globe Three.js avec imagerie NASA embarquée, fond épuré, altitude, grille et éclairage jour/nuit astronomique.
+- Relief terrestre réellement déplacé avec le DEM NASA/GEBCO, résolution globale 8 km/pixel et géométrie simplifiée. Exagération réglable ×1 à ×15 ; aucune précision de terrain locale ni bâtiments.
+- Relevés mondiaux OpenSky par défaut, sans découpage en secteurs. Couverture du réseau public, jamais tous les aéronefs garantis. Actualisation à 120 secondes, quotas et erreurs respectés.
+- Modèles 3D symboliques : jet, gros porteur, petit avion, hélicoptère, planeur et ballon selon catégorie disponible. Métadonnées chargées uniquement à la sélection. Aucune livrée réelle ni identification exacte garantie.
+- Sélection et caméra de suivi, traînée des positions observées pendant la session, route indicative en pointillés, vitesse, altitude, cap, variomètre, heure dans le fuseau local et ETA géométrique si une destination est connue.
+- Catalogue CelesTrak des objets actifs publiés, ISS incluse ; positions SGP4 calculées dans un Web Worker, interpolation sur 5 secondes, orbite affichée à la sélection. Le catalogue ne comprend pas tous les débris ou objets classifiés. Éléments actualisés au plus toutes les deux heures, âge visible.
+- Annuaire OurAirports mondial : aéroports, aérodromes, héliports et autres installations non fermées. Recherche par code, ville, pays ou nom. Seuls les grands aéroports sont affichés sur le globe pour limiter l’encombrement.
+- Arrivées / départs historiques de la journée UTC précédente via OpenSky, sous réserve d’accès de la source. Ce sont des vols observés, pas un tableau commercial en temps réel.
+- Calques indépendants, qualité 20/30/60 images/s, transitions désactivables, prise en compte du réglage de réduction des animations de Windows, pause du rendu et des calculs orbitaux lorsque la fenêtre est masquée.
+- Mode 2D conservé : filtres, favoris, thèmes, tri, export CSV/JSON, relecture limitée à la session et source de proximité ADS-B.lol facultative.
 
-- Carte mondiale Natural Earth intégrée, zoom à la molette, déplacement, navigation par coordonnées et 15 secteurs prédéfinis.
-- Mode radar ATC d'observation, balayage optionnel et cercles de distance en milles nautiques.
-- Données réelles ADS-B.lol sur 250 NM autour du centre de la vue ; alternative mondiale OpenSky.
-- Indicatif, ICAO, position, altitude barométrique, vitesse sol, cap vrai, vitesse verticale, squawk ; immatriculation, modèle, Mach et mesures de vent/température si fournis par la source.
-- Recherche multichamp, tri, altitude et vitesse, appareils en vol, codes spéciaux et filtre de visibilité.
-- Sélection, suivi de l'appareil, favoris persistants, traînées de positions réellement reçues.
-- Pause et relecture de jusqu’à 40 relevés de la session (plafond de 120 000 rapports pour limiter la mémoire). Pas d'historique antérieur au démarrage.
-- Export CSV / JSON des appareils filtrés avec attribution et unités explicites.
-- Thèmes nuit, phosphore, jour ; unités aviation ou métriques ; animations désactivables ; cadence 15/30/60 images/s, 60 par défaut, compteur FPS et temps de dessin p95.
-- Application isolée : pas de Node dans l'interface, pas de navigation distante, pas d'automise à jour ni de code téléchargé à l'exécution.
+Glisser pour tourner, molette pour zoomer, clic pour sélectionner, bouton maison pour retrouver la Terre, bouton ISS pour retrouver la station. La liste limite le DOM à 120 résultats ; préciser la recherche pour retrouver un autre objet. Les données complètes reçues restent présentes sur le globe.
 
-## Comprendre les sources gratuites
+## Données gratuites : limites explicites
 
-**ADS-B.lol** : réseau communautaire, sans clé ; requête de proximité de rayon 250 NM ; une requête au plus toutes les 15 secondes dans cette application. Déplacer la carte change la zone demandée à la prochaine actualisation. La carte est mondiale mais la réception ADS-B.lol est sectorielle. La limite géographique de la requête est dessinée en pointillés.
+OpenSky anonyme fournit environ 400 crédits/jour/IP ; une requête mondiale en consomme 4, soit environ 100 relevés quotidiens. Le quota est partagé par IP et peut évoluer. Un relevé toutes les deux minutes ne peut donc pas fonctionner toute la journée sans atteindre ce plafond. En cas de quota, Airview conserve le dernier relevé, indique son ancienneté et attend la reprise autorisée. Les coordonnées sont extrapolées pendant 15 secondes maximum, puis figées. Une navigation 2D/3D réutilise le relevé en mémoire au lieu de redemander immédiatement les données.
 
-**OpenSky Network** : états du réseau mondial, sans garantie de couverture exhaustive. Accès anonyme : 400 crédits quotidiens par IP ; une requête mondiale coûte 4 crédits, soit environ 100 relevés. Actualisation minimale de 60 secondes, résolution temporelle de la source de 10 secondes. Les quotas sont partagés au niveau de l'IP. Le fournisseur peut répondre 429 ou devenir indisponible ; l'application respecte les délais de reprise et conserve le dernier relevé avec son ancienneté. Les champs non fournis restent inconnus, jamais inventés.
+Les avions sans position et les reports dépassant 90 secondes à la date du relevé sont ignorés. Les types et immatriculations peuvent rester inconnus. Le pays associé à l’adresse ICAO n’est pas une provenance de vol. Les altitudes et silhouettes sont agrandies pour la lisibilité : ce n’est pas une scène à échelle intégralement réelle.
 
-La couverture dépend des récepteurs, de l'altitude, des pays et des politiques de chaque source. Les appareils sans position valide ou dont le dernier report dépasse 90 secondes ne sont pas affichés en direct. Une extrapolation visuelle, désactivable, utilise le cap et la vitesse pendant **15 secondes maximum** ; elle n'est pas une nouvelle mesure. Le petit cercle du vol sélectionné marque la position observée.
+ADSBdb fournit des informations indicatives pour le callsign : la route peut être ancienne ou ne pas correspondre à l’appareil actuel. Elle ne confirme ni départ ni arrivée du vol présent. L’ETA = distance orthodromique restante / vitesse sol actuelle ; elle ignore route, attentes et météo. Heure réelle de départ, horaires programmés, retards et annulations restent indisponibles. Les routes sont affichées individuellement en mémoire ; aucune base de routes n’est embarquée ou redistribuée.
 
-Les aéroports sont une sélection de repères, sans pistes ou procédures. Aucun horaire, itinéraire commercial, identité de passager, plan de vol ou séparation réglementaire n'est déduit. Le pays OpenSky est celui associé à l'adresse ICAO, pas une provenance du vol. Les couleurs classent l'altitude ; les codes 7500/7600/7700 sont les valeurs transpondeur reçues, non des alertes opérationnelles validées.
+Flightradar24 est une référence d’ergonomie, pas une source connectée : son API officielle est payante. Aucun abonnement ni collecte contournant ses restrictions n’est utilisé. La couverture, l’historique et les fonctions premium de services commerciaux ne sont pas reproduits intégralement.
 
-**Usage personnel d'observation. Ce logiciel n'est pas un système de contrôle aérien et ne doit jamais servir à la navigation ou à la sécurité des vols.** Les données restent soumises aux licences et conditions de leurs fournisseurs ; gratuit ne signifie pas disponibilité garantie.
+Les dates HTTP des sources permettent de compenser un décalage de l’horloge du PC pour les orbites et le cycle solaire, sans modifier Windows. À défaut, l’horloge du système est utilisée. Les positions orbitales sont des prédictions SGP4, pas des mesures télémétriques en direct.
 
-## Nouveautés Airview 1.1
+## Portable et confidentialité
 
-Le moteur prépare les coordonnées et les déplacements une fois par relevé, utilise des sprites d’avions précalculés et calcule chaque distance une seule fois par tri. Les panneaux ne sont reconstruits que si leurs données changent. Le déplacement entre deux observations est lissé pendant 900 ms et reste une estimation, bornée par la projection de 15 secondes. Le rendu passe au repos si aucun mouvement ou balayage n’est nécessaire et s’arrête lorsque la fenêtre est masquée.
+Les préférences, le cache Chromium et le catalogue orbital restent dans **Airview-data**, à côté du programme. Aucun compte, télémétrie, installation système ou mise à jour automatique. L’historique aérien et les métadonnées sélectionnées restent en mémoire, sauf export explicite dans la vue 2D. Fermer Airview et supprimer son dossier suffit à retirer l’application et ses données portables. Les appels HTTPS communiquent naturellement l’adresse IP aux fournisseurs ; la sélection d’un vol communique son ICAO/callsign à ADSBdb, et la consultation d’un historique communique le code d’aéroport à OpenSky.
 
-Les données portables sont maintenant dans `Airview-data`. Pour conserver les anciens favoris, copier manuellement `settings.json` de `BoyhoodRadar-data` dans `Airview-data`, application fermée. Ne pas remplacer les sous-dossiers cache. Voir `PERFORMANCE.md` pour les mesures et leurs limites.
+Un pilote WebGL2 est nécessaire pour le globe. Si la 3D échoue, choisir la carte 2D. En cas de problème de pilote au démarrage, lancer Airview.exe avec l’argument --software-rendering pour utiliser le rendu logiciel, moins rapide. Le sandbox Chromium et l’isolation de l’interface restent activés.
 
-## Raccourcis
+## Développer et compiler gratuitement
 
-| Touche | Action |
-|---|---|
-| `/` | Rechercher |
-| Espace | Pause / retour au direct |
-| R | Recentrer sur le secteur |
-| F | Plein écran |
-| + / − | Zoom |
-| H | Aide |
-| Échap | Fermer un panneau ou désélectionner |
+Node.js récent et Windows x64 pour le paquet Windows :
 
-## Développement et construction locale gratuite
+    npm ci
+    npm run prepare:assets
+    npm run build
+    npm test
+    npm run preview
+    npm start
+    npm run package
 
-Node.js récent (22+) et npm, puis :
+Les images NASA et l’annuaire OurAirports sont préparés par le script, sans clé ni abonnement ; les URL et empreintes sont enregistrées dans assets/sources.json. Les fichiers générés (bundles, images et annuaire) ne sont pas versionnés. Le paquet Windows les embarque et fonctionne sans CDN de code. Conserver les notices de assets/licenses et celles d’Electron/Chromium. Les sources et conditions figurent dans THIRD_PARTY_NOTICES.md. Aucun workflow GitHub Actions payant n’est nécessaire : ce paquet a été compilé localement.
 
-```sh
-npm ci
-npm test
-npm start
-npm run package
-```
+## Usage
 
-La construction Windows x64 copie la distribution officielle Electron et assemble l'application dans `dist`. Elle ne demande pas de certificat commercial ou d'outil payant. Le script refuse d'écraser un paquet déjà existant. Aucun workflow GitHub Actions n'est activé : aucune consommation de minutes de compilation GitHub.
-
-`npm run preview` ouvre un serveur de développement sur `127.0.0.1:4173/src/index.html`. Le serveur est un outil local de développement, pas requis par l'application portable. La version de développement dans un navigateur utilise son stockage local ; la version Electron utilise uniquement son dossier portable.
-
-## Références
-
-- https://www.adsb.lol/docs/open-data/api
-- https://api.adsb.lol/docs
-- https://openskynetwork.github.io/opensky-api/rest.html
-- https://www.naturalearthdata.com/about/terms-of-use/
-- Voir `THIRD_PARTY_NOTICES.md` pour les attributions.
-
+Observation personnelle de loisir uniquement. Airview ne doit jamais servir au contrôle aérien, à la navigation ou à la sécurité des vols. Gratuit ne signifie ni disponibilité garantie ni droit illimité de redistribution des données. Code Airview sous MIT ; données selon les conditions de leurs fournisseurs.

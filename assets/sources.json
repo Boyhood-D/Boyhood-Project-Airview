@@ -1,0 +1,17 @@
+{
+  "earth.jpg": {
+    "url": "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_atmos_2048.jpg",
+    "sha256": "2faa400d1eade3bc44caf6750d1b772bd9bbb6d87362c02bc7c3304e78fa0a9d",
+    "bytes": 512606
+  },
+  "elevation.jpg": {
+    "url": "https://assets.science.nasa.gov/content/dam/science/esd/eo/images/bmng/topography/gebco_08_rev_elev_5400x2700.jpg",
+    "sha256": "97828a87bcb6549a527232455e478c5f9e4556f761b37d620a46446da17593ab",
+    "bytes": 1244508
+  },
+  "airports.csv": {
+    "url": "https://raw.githubusercontent.com/davidmegginson/ourairports-data/main/airports.csv",
+    "sha256": "3d7eeb55961be0f1691e3420ec0e05d4a58be4597c61540511e3e838d7e486f9",
+    "bytes": 12761821
+  }
+}

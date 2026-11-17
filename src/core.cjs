@@ -27,11 +27,11 @@
   }
   function normalizeOpenSky(data, receivedAt = Date.now()) {
     if (!data || (!Array.isArray(data.states) && data.states !== null) || number(data.time) === null) throw new Error('Réponse OpenSky invalide.');
-    return (data.states || []).filter(a => Array.isArray(a) && validPosition(a[6], a[5]) && typeof a[0] === 'string' && number(a[3]) !== null && receivedAt / 1000 - a[3] <= 90).map(a => ({
+    return (data.states || []).filter(a => Array.isArray(a) && validPosition(a[6], a[5]) && typeof a[0] === 'string' && number(a[3]) !== null && data.time - a[3] <= 90 && data.time-a[3]>=-30).map(a => ({
       id: a[0].toLowerCase(), callsign: String(a[1] || '').trim(), registration: '', model: '', country: String(a[2] || ''),
       lat: a[6], lon: a[5], altitude: number(a[7]) === null ? null : a[7] * 3.28084, ground: !!a[8],
       speed: number(a[9]) === null ? null : a[9] * 1.943844, heading: number(a[10]), verticalRate: number(a[11]) === null ? null : a[11] * 196.8504,
-      squawk: a[14] || '', category: String(a[17] || ''), source: ['ADS-B', 'ASTERIX', 'MLAT', 'FLARM'][a[16]] || 'OpenSky', observedAt: a[3] * 1000
+      squawk: a[14] || '', category: String(a[17] || ''), source: ['ADS-B', 'ASTERIX', 'MLAT', 'FLARM'][a[16]] || 'OpenSky', observedAt: receivedAt - Math.max(0,data.time-a[3])*1000, sourceObservedAt:a[3]*1000
     }));
   }
   function filterAircraft(list, f, favorites = []) {

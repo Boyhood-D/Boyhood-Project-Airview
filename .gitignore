@@ -6,3 +6,9 @@ test-results/
 
 
 release-dist/
+
+Airview-data/
+src/*.bundle.js
+assets/earth.jpg
+assets/elevation.jpg
+assets/airports.json
