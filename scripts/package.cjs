@@ -17,8 +17,8 @@ const pkg = require('../package.json');delete pkg.devDependencies;delete pkg.scr
 fs.writeFileSync(path.join(resources,'package.json'),JSON.stringify(pkg,null,2));
 for(const name of ['README.md','THIRD_PARTY_NOTICES.md','PERFORMANCE.md'])fs.copyFileSync(path.join(root,name),path.join(appDir,name));
 fs.copyFileSync(path.join(root,'LICENSE'),path.join(appDir,'LICENSE-Airview.txt'));
-fs.writeFileSync(path.join(appDir,'LIRE-MOI.txt'),'AIRVIEW RADAR 2.1.0\r\n\r\nExtraire tout le ZIP dans un dossier, puis ouvrir Airview.exe.\r\nWindows 10/11 64 bits. Internet requis pour le trafic.\r\nGratuit, sans compte, sans installation.\r\nLes préférences et le cache restent dans Airview-data à côté du programme.\r\nNe pas lancer depuis le ZIP ou un dossier protégé en écriture.\r\nApplication non signée : Windows peut avertir de son origine.\r\nLire README.md pour les sources, limites et commandes.\r\nObservation personnelle uniquement, pas de contrôle aérien réel.\r\n','utf8');
-const archive=path.join(out,'Airview-2.1.0-Windows-x64.zip');
+fs.writeFileSync(path.join(appDir,'LIRE-MOI.txt'),'AIRVIEW RADAR 2.1.1\r\n\r\nExtraire tout le ZIP dans un dossier, puis ouvrir Airview.exe.\r\nWindows 10/11 64 bits. Internet requis pour le trafic.\r\nGratuit, sans compte, sans installation.\r\nLes préférences et le cache restent dans Airview-data à côté du programme.\r\nNe pas lancer depuis le ZIP ou un dossier protégé en écriture.\r\nApplication non signée : Windows peut avertir de son origine.\r\nLire README.md pour les sources, limites et commandes.\r\nObservation personnelle uniquement, pas de contrôle aérien réel.\r\n','utf8');
+const archive=path.join(out,'Airview-2.1.1-Windows-x64.zip');
 execFileSync('tar',['-a','-c','-f',archive,'-C',out,path.basename(appDir)],{stdio:'inherit'});
 const sha=crypto.createHash('sha256').update(fs.readFileSync(archive)).digest('hex');
 fs.writeFileSync(archive+'.sha256',sha+'  '+path.basename(archive)+'\n');

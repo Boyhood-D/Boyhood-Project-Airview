@@ -1,10 +1,20 @@
-# Airview 2.1 — tout sur la carte 2D
+# Airview 2.1.1 — tout sur la carte 2D
 
 Radar mondial portable et gratuit pour Windows 10/11 x64. Carte 2D uniquement : le globe, les modèles 3D et Three.js ont été retirés. Aucun compte ni clé API, aucune souscription.
 
 ## Télécharger
 
-Dans [Releases](https://github.com/Boyhood-D/Boyhood-Project-Airview/releases), télécharger **Airview-2.1.0-Windows-x64.zip**, extraire tout le ZIP, puis ouvrir **Airview.exe**. Vérifier l’empreinte SHA-256 fournie. L’exécutable n’est pas signé commercialement ; Windows peut afficher un avertissement d’origine. Internet est nécessaire pour les relevés récents.
+Dans [Releases](https://github.com/Boyhood-D/Boyhood-Project-Airview/releases), télécharger **Airview-2.1.1-Windows-x64.zip**, extraire tout le ZIP, puis ouvrir **Airview.exe**. Vérifier l’empreinte SHA-256 fournie. L’exécutable n’est pas signé commercialement ; Windows peut afficher un avertissement d’origine. Internet est nécessaire pour les relevés récents.
+
+## Correctif 2.1.1
+
+Logo original minimaliste et lancement animé local : transition courte, bouton pour passer et fermeture automatique au plus tard après environ trois secondes même si les données réseau sont indisponibles. La réduction des animations Windows et l’option d’animations de l’application sont respectées. Aucun téléchargement ou abonnement ajouté.
+
+Interface allégée, panneau de calques animé, transitions de sélection et survols discrets. Les transitions utilisent principalement opacité et transformation, sans effet de flou permanent ni animation de mise en page du radar.
+
+Optimisations : projection et interpolation orbitale avec buffers réutilisés, accès direct à la projection pendant le dessin, formateurs numériques réutilisés, liste reconstruite uniquement lorsque ses valeurs visibles changent, recherche temporisée de 140 ms et arrêt des mises à jour de panneaux lorsque la fenêtre est masquée.
+
+Correctifs : les phases et la liste sont actualisées au passage aux données anciennes ; le filtre de phase est remis à zéro avec les autres filtres ; une route en cache n’est plus réutilisée lorsque l’indicatif de l’appareil change. Les fonctions de la 2.1 sont conservées.
 
 ## Carte et calques
 

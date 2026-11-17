@@ -6,7 +6,7 @@
   function mercator(lat){const p=Math.max(-85,Math.min(85,lat))*RAD;return (1-Math.log(Math.tan(Math.PI/4+p/2))/Math.PI)/2;}
   function createProjection(center,zoom,width,height){
     const scale=256*2**zoom,cx=(center[1]+180)/360,cy=mercator(center[0]);
-    return {scale,cx,cy,width,height,project(lat,lon){return [width/2+wrap((lon+180)/360-cx)*scale,height/2+(mercator(lat)-cy)*scale];},
+    return {scale,cx,cy,width,height,project(lat,lon,out=[]){out[0]=width/2+wrap((lon+180)/360-cx)*scale;out[1]=height/2+(mercator(lat)-cy)*scale;return out;},
       projectWorld(x,y,out){out[0]=width/2+wrap(x-cx)*scale;out[1]=height/2+(y-cy)*scale;return out;}};
   }
   const prepared=new WeakMap();
@@ -38,6 +38,15 @@
     const key=sort==='altitude'?'altitude':'speed';return list.slice().sort((a,b)=>(b[key]??-1)-(a[key]??-1));
   }
   function retainSnapshots(snapshots,maxReports=120000,maxSnapshots=40){let count=snapshots.reduce((sum,s)=>sum+s.aircraft.length,0);while(snapshots.length>1&&(count>maxReports||snapshots.length>maxSnapshots))count-=snapshots.shift().aircraft.length;return count;}
-  const api={mercator,createProjection,prepare,position,Motion,rank,retainSnapshots,wrap};
+  function interpolateOrbit(current,next,index,fraction,out=[]){
+    const j=index*4;if(!current||!Number.isFinite(current[j])||!Number.isFinite(current[j+2]))return null;
+    const t=Math.max(0,Math.min(1,Number.isFinite(fraction)?fraction:0));
+    if(next&&Number.isFinite(next[j])&&Number.isFinite(next[j+2])){
+      out[0]=current[j]+(next[j]-current[j])*t;
+      out[1]=wrap((current[j+1]+wrap((next[j+1]-current[j+1])/360)*360*t)/360)*360;
+      out[2]=current[j+2]+(next[j+2]-current[j+2])*t;out[3]=current[j+3]+(next[j+3]-current[j+3])*t;
+    }else for(let k=0;k<4;k++)out[k]=current[j+k];return out;
+  }
+  const api={mercator,createProjection,prepare,position,Motion,rank,retainSnapshots,wrap,interpolateOrbit};
   if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.AirviewEngine=api;
 })(typeof window!=='undefined'?window:globalThis);

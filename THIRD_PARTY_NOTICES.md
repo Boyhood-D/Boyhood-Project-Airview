@@ -49,3 +49,7 @@ https://ourairports.com/data/ — données dans le domaine public. Source airpor
 ## ADSBdb et routes indicatives
 
 https://www.adsbdb.com ; documentation https://github.com/mrjackwills/adsbdb. Consultation personnelle d’un appareil et d’un callsign à la sélection ; cache de session en mémoire. Selon le fournisseur, les données de routes sont le travail de David Taylor (Edinburgh) et Jim Mason (Glasgow) et ne doivent pas être copiées, publiées ou incorporées dans une autre base sans leur autorisation explicite. Airview n’embarque, ne publie et n’exporte aucune base de routes. Les routes indicatives ne constituent pas une validation du vol actuel. Le code de la bibliothèque ou de l’API n’accorde pas une licence implicite sur toutes les données.
+
+## Identité Airview 2.1.1
+
+Le logo assets/logo.svg et son icône assets/icon.png sont des créations géométriques originales pour Airview, distribuées sous la licence MIT du projet. Ils ne représentent aucune affiliation avec NASA, OpenSky ou CelesTrak.

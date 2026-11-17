@@ -1,7 +1,7 @@
 {
   "name": "airview",
   "productName": "Airview",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Radar mondial 2D et satellites — fiches d’identité et phases de vol",
   "main": "src/main.cjs",
   "author": "Boyhood-D",

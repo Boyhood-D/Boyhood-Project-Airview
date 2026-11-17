@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'none'">
-  <title>Airview</title><link rel="stylesheet" href="style.css">
+  <title>Airview</title><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="motion.css"><link rel="icon" href="../assets/logo.svg" type="image/svg+xml">
 </head>
-<body>
+<body><div id="boot-screen" class="boot-screen" role="status" aria-label="Démarrage d’Airview"><div class="boot-content"><div class="boot-symbol"><img src="../assets/logo.svg" alt="" width="86" height="86"></div><h1>AIRVIEW</h1><p id="boot-label">Le ciel, simplement.</p><div class="boot-line" aria-hidden="true"></div><button id="boot-skip">Passer l’animation</button><small>EARTH · AIR · ORBIT</small></div></div><script src="boot.js"></script>
 <header class="topbar">
-  <a class="brand" href="#" aria-label="Airview accueil"><span class="brand-mark"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="17"/><path d="M24 5v38M5 24h38"/><path class="mark-plane" d="m31 12-5 18-4-5-6-3Z"/></svg></span><span>AIRVIEW<span class="brand-sub">A CLEARER VIEW OF THE SKY</span></span></a>
+  <a class="brand" href="#" aria-label="Airview accueil"><span class="brand-mark"><img src="../assets/logo.svg" alt="" width="45" height="45"></span><span>AIRVIEW<span class="brand-sub">A CLEARER VIEW OF THE SKY</span></span></a>
   <div class="mode-switch" aria-label="Mode de carte"><button data-mode="map" class="active">Carte mondiale</button><button data-mode="radar">Radar ATC</button></div>
   <div class="top-right"><span id="performance-label" class="performance-label" aria-label="Performance du radar">—</span><span class="utc" id="utc">--:--:-- UTC</span><button class="icon-button" id="help" title="Aide et raccourcis (H)" aria-label="Aide">?</button><button class="icon-button" id="settings" title="Personnaliser" aria-label="Réglages">⚙</button></div>
 </header>
@@ -28,7 +28,7 @@
     </section>
     <div class="entity-tabs" aria-label="Objets à explorer"><button id="tab-aircraft" class="active">Avions</button><button id="tab-satellites">Satellites</button><button id="tab-airports">Aéroports</button></div><div id="explorer-results" hidden></div><div class="sort-line"><span id="list-caption">TRAFIC REÇU</span><select id="sort" aria-label="Trier le trafic"><option value="distance">Distance ↑</option><option value="altitude">Altitude ↓</option><option value="speed">Vitesse ↓</option><option value="callsign">Indicatif A–Z</option></select></div>
     <div id="aircraft-list" role="list" aria-label="Liste des appareils"><div class="empty-list">Connexion au réseau public…</div></div>
-    <div class="sidebar-bottom"><button id="export-button">↓ Exporter le trafic</button><span>v2.1.0 · WINDOWS</span></div>
+    <div class="sidebar-bottom"><button id="export-button">↓ Exporter le trafic</button><span>v2.1.1 · WINDOWS</span></div>
   </aside>
   <section class="map-area" aria-label="Carte interactive du trafic aérien">
     <canvas id="radar-canvas" tabindex="0" aria-label="Radar : glisser pour déplacer, molette pour zoomer, cliquer sur un avion pour le sélectionner"></canvas>

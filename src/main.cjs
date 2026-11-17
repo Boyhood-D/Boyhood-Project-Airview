@@ -18,8 +18,9 @@ let win;
 const settingsPath = path.join(dataDir, 'settings.json');
 function loadSettings() { try { return JSON.parse(fs.readFileSync(settingsPath, 'utf8')); } catch { return {}; } }
 app.whenReady().then(() => {
-  win = new BrowserWindow({ width: 1500, height: 960, minWidth: 1040, minHeight: 700, backgroundColor: '#080e19', title: 'Airview', autoHideMenuBar: true,
+  win = new BrowserWindow({ width: 1500, height: 960, minWidth: 1040, minHeight: 700, backgroundColor: '#080e19', title: 'Airview', show:false, icon:path.join(__dirname,'../assets/icon.png'), autoHideMenuBar: true,
     webPreferences: { preload: path.join(__dirname, 'preload.cjs'), contextIsolation: true, nodeIntegration: false, sandbox: true, spellcheck: false } });
+  win.once('ready-to-show',()=>win.show());
   win.webContents.setWindowOpenHandler(() => ({ action: 'deny' }));
   win.webContents.on('will-navigate', (e,url) => {
     const allowed=['index.html'].map(name=>require('node:url').pathToFileURL(path.join(__dirname,name)).href);

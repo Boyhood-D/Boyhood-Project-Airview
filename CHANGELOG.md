@@ -1,5 +1,10 @@
 # Versions
 
+## 2.1.1 — 17 novembre 2026
+
+Correctif de performance et de présentation : logo minimaliste original, écran de démarrage animé avec sortie automatique et bouton pour passer, réduction des animations respectée, interface plus compacte, transitions de sélection et de calques. Projection et interpolation orbitales avec buffers réutilisés ; formateurs numériques mémorisés ; suppression des reconstructions de liste sans changement visible ; recherche temporisée. Correction des phases anciennes, de la remise à zéro du filtre de phase et du cache de route lors d’un changement d’indicatif. 33 tests automatisés, dont projection réutilisable, antiméridien orbital et sécurité de sortie du démarrage.
+
+
 ## 2.1.0 — 17 novembre 2026
 
 Carte 2D uniquement : retrait du globe et de Three.js. Satellites, ISS, traces orbitales projetées, fonds NASA / relief coloré et jour/nuit intégrés au radar 2D. Carte d’identité par aéronef, données inconnues explicites, phase estimée et raisonnement visibles, filtre par phase. Catégories de silhouettes 2D, recherche mondiale d’aéroports, historique soumis à l’accès OpenSky et activité proche en repli. Filtres, favoris, export et relecture conservés. Phases mises en cache et calculées à l’heure du relevé en relecture. Conservation grisée des positions anciennes jusqu’à cinq minutes, sans extrapolation au-delà de 15 secondes.
