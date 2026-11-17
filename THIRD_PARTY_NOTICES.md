@@ -30,13 +30,13 @@ L'accès aux données est soumis aux conditions d'utilisation et à l'autorisati
 Code propre à Airview : MIT, voir LICENSE. Silhouette d'avion et éléments graphiques dessinés pour cette application. Les quelques coordonnées d'aéroports servent uniquement de repères géographiques.
 
 
-## Three.js, satellite.js et tz-lookup
+## satellite.js et tz-lookup
 
-Three.js 0.187.0 (MIT), https://github.com/mrdoob/three.js ; satellite.js 7.2.0 (MIT), https://github.com/shashwatak/satellite-js ; tz-lookup 6.1.25 (CC0-1.0), https://github.com/darkskyapp/tz-lookup. Textes des licences inclus dans assets/licenses. Les bibliothèques sont compilées localement ; aucune exécution de scripts distants. esbuild 0.28.2 (MIT) est uniquement un outil de compilation.
+satellite.js 7.2.0 (MIT), https://github.com/shashwatak/satellite-js ; tz-lookup 6.1.25 (CC0-1.0), https://github.com/darkskyapp/tz-lookup. Textes des licences inclus dans assets/licenses. Les bibliothèques sont compilées localement ; aucune exécution de scripts distants. esbuild 0.28.2 (MIT) est uniquement un outil de compilation.
 
 ## NASA : imagerie et élévation
 
-Image terrestre NASA Blue Marble diffusée dans les exemples officiels Three.js : https://github.com/mrdoob/three.js/blob/master/examples/textures/planets/earth_atmos_2048.jpg. Élévation globale NASA / GEBCO, 5400 × 2700, 0–6400 m : https://science.nasa.gov/earth/earth-observatory/blue-marble-next-generation/topography-bathymetry-maps/ ; imagerie par Jesse Allen, NASA Earth Observatory, données GEBCO / British Oceanographic Data Centre. Image téléchargée depuis assets.science.nasa.gov ; URL et SHA-256 dans assets/sources.json. Usage des images selon https://www.nasa.gov/nasa-brand-center/images-and-media/ ; aucun logo NASA, aucune affiliation ou approbation implicite. Les couleurs et le relief sont adaptés dans le shader.
+Image terrestre NASA Blue Marble diffusée dans les exemples officiels Three.js : https://github.com/mrdoob/three.js/blob/master/examples/textures/planets/earth_atmos_2048.jpg. Élévation globale NASA / GEBCO, 5400 × 2700, 0–6400 m : https://science.nasa.gov/earth/earth-observatory/blue-marble-next-generation/topography-bathymetry-maps/ ; imagerie par Jesse Allen, NASA Earth Observatory, données GEBCO / British Oceanographic Data Centre. Image téléchargée depuis assets.science.nasa.gov ; URL et SHA-256 dans assets/sources.json. Usage des images selon https://www.nasa.gov/nasa-brand-center/images-and-media/ ; aucun logo NASA, aucune affiliation ou approbation implicite. Les couleurs et projections sont adaptées localement dans Canvas 2D. Three.js ne fait plus partie du code de la version 2.1 ; son dépôt officiel reste la source de diffusion de l’image NASA utilisée.
 
 ## CelesTrak
 

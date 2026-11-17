@@ -1,8 +1,8 @@
 {
   "name": "airview",
   "productName": "Airview",
-  "version": "2.0.0",
-  "description": "Globe aérien et orbital 3D gratuit — Windows portable",
+  "version": "2.1.0",
+  "description": "Radar mondial 2D et satellites — fiches d’identité et phases de vol",
   "main": "src/main.cjs",
   "author": "Boyhood-D",
   "private": true,
@@ -23,7 +23,6 @@
   },
   "dependencies": {
     "satellite.js": "7.2.0",
-    "three": "0.187.0",
     "tz-lookup": "6.1.25"
   }
 }

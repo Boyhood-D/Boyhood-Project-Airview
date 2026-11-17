@@ -22,7 +22,7 @@ app.whenReady().then(() => {
     webPreferences: { preload: path.join(__dirname, 'preload.cjs'), contextIsolation: true, nodeIntegration: false, sandbox: true, spellcheck: false } });
   win.webContents.setWindowOpenHandler(() => ({ action: 'deny' }));
   win.webContents.on('will-navigate', (e,url) => {
-    const allowed=['index.html','globe.html'].map(name=>require('node:url').pathToFileURL(path.join(__dirname,name)).href);
+    const allowed=['index.html'].map(name=>require('node:url').pathToFileURL(path.join(__dirname,name)).href);
     const canonical=value=>process.platform==='win32'?value.toLowerCase():value;
     if(!allowed.some(value=>canonical(value)===canonical(url)))e.preventDefault();
   });
@@ -31,7 +31,7 @@ app.whenReady().then(() => {
   win.webContents.on('render-process-gone', (_event, details) => diagnostic('Renderer stopped: '+details.reason));
   win.webContents.on('console-message', (_event, details) => { if(details.level === 'error') diagnostic('Renderer: '+details.message); });
   diagnostic('Starting Airview '+app.getVersion());
-  win.loadFile(path.join(__dirname, 'globe.html')).catch(error=>diagnostic('Page load failed: '+error.message));
+  win.loadFile(path.join(__dirname, 'index.html')).catch(error=>diagnostic('Page load failed: '+error.message));
 });
 app.on('window-all-closed', () => app.quit());
 ipcMain.handle('satellites', () => space.satellites(dataDir));
