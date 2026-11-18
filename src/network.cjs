@@ -11,13 +11,13 @@ function cachePath(provider){return require('node:path').join(cacheDir,'last-tra
 async function traffic(query) {
   const provider = query && query.provider === 'opensky' ? 'opensky' : 'adsb';
   const lat = Number(query.lat), lon = Number(query.lon);
-  if (!Number.isFinite(lat) || !Number.isFinite(lon) || Math.abs(lat) > 85 || Math.abs(lon) > 180) throw new Error('Centre radar invalide.');
+  if (!Number.isFinite(lat) || !Number.isFinite(lon) || Math.abs(lat) > 85 || Math.abs(lon) > 180) throw new Error('Invalid map center.');
   const plan=budget.plan(provider),now = Date.now(), next = Math.max(nextAllowed.get(provider)||0,now+plan.wait*1000);
   const key=provider==='opensky'?provider:`${provider}:${lat.toFixed(4)}:${lon.toFixed(4)}`;
   if(cacheDir&&!latest.has(key))try{const saved=JSON.parse(require('node:fs').readFileSync(cachePath(provider),'utf8'));if(saved.key===key&&saved.result?.ok&&Array.isArray(saved.result.aircraft)&&Date.now()-saved.result.receivedAt<86400000)latest.set(key,saved.result);}catch{}
   if (now < next) {
     const cached=latest.get(key);
-    return cached?{...cached,cached:true,retryAfter:Math.ceil((next-now)/1000)}:{ok:false,pending:true,message:'Temporisation du fournisseur.',retryAfter:Math.ceil((next-now)/1000)};
+    return cached?{...cached,cached:true,retryAfter:Math.ceil((next-now)/1000)}:{ok:false,pending:true,message:'Provider cooldown.',retryAfter:Math.ceil((next-now)/1000)};
   }
   const interval = plan.seconds*1000;
   budget.charge(provider);
@@ -29,7 +29,7 @@ async function traffic(query) {
       const rawRetry = res.headers.get('retry-after') || res.headers.get('x-rate-limit-retry-after-seconds');
       const parsed = Number(rawRetry), delay = Number.isFinite(parsed) && parsed > 0 ? Math.min(86400, Math.max(interval / 1000, parsed)) : res.status === 429 ? 900 : 60;
       nextAllowed.set(provider, Date.now() + delay * 1000);budget.block(provider,delay);
-      return { ok: false, message: res.status === 429 ? 'Quota public atteint. Reprise automatique après le délai du fournisseur.' : `Fournisseur indisponible (HTTP ${res.status}).`, retryAfter: delay };
+      return { ok: false, message: res.status === 429 ? 'Public quota reached. Requests resume after the provider cooldown.' : `Provider unavailable (HTTP ${res.status}).`, retryAfter: delay };
     }
     const data = await res.json(), receivedAt = Date.now();budget.observe(provider,res.headers);
     const result={ ok: true, provider, receivedAt, ...clock.observe(res.headers,receivedAt), aircraft: provider === 'adsb' ? normalizeAdsb(data, receivedAt) : normalizeOpenSky(data, receivedAt), quota:budget.plan(provider).remaining, retryAfter:budget.plan(provider).wait, adaptive:true };
@@ -40,7 +40,7 @@ async function traffic(query) {
     return result;
   } catch (e) {
     console.warn('[Airview] Provider request failed:', e.name, e.cause?.code || e.message);
-    return { ok: false, message: e.name === 'TimeoutError' ? 'Le fournisseur ne répond pas. Nouvelle tentative dans une minute.' : 'Connexion indisponible. Vérifie Internet ou réessaie plus tard.', retryAfter: 60 };
+    return { ok: false, message: e.name === 'TimeoutError' ? 'Provider timed out. Another attempt is scheduled in one minute.' : 'Connection unavailable. Check your network or try later.', retryAfter: 60 };
   }
 }
 module.exports = { traffic,configureBudgetDir };

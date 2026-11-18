@@ -15,7 +15,7 @@
     return [next / r, wrap(lon + Math.atan2(Math.sin(b) * Math.sin(d) * Math.cos(a), Math.cos(d) - Math.sin(a) * Math.sin(next)) / r)];
   }
   function normalizeAdsb(data, receivedAt = Date.now()) {
-    if (!data || !Array.isArray(data.ac)) throw new Error('Réponse ADS-B invalide.');
+    if (!data || !Array.isArray(data.ac)) throw new Error('Invalid ADS-B response.');
     return data.ac.filter(a => validPosition(a.lat, a.lon) && typeof a.hex === 'string' && number(a.seen_pos) !== null && a.seen_pos <= 90).map(a => ({
       id: a.hex.toLowerCase(), callsign: String(a.flight || '').trim(), registration: a.r || '', model: a.t || '', country: '',
       lat: a.lat, lon: a.lon, altitude: a.alt_baro === 'ground' ? 0 : number(a.alt_baro), ground: a.alt_baro === 'ground',
@@ -26,7 +26,7 @@
     }));
   }
   function normalizeOpenSky(data, receivedAt = Date.now()) {
-    if (!data || (!Array.isArray(data.states) && data.states !== null) || number(data.time) === null) throw new Error('Réponse OpenSky invalide.');
+    if (!data || (!Array.isArray(data.states) && data.states !== null) || number(data.time) === null) throw new Error('Invalid OpenSky response.');
     return (data.states || []).filter(a => Array.isArray(a) && validPosition(a[6], a[5]) && typeof a[0] === 'string' && number(a[3]) !== null && data.time - a[3] <= 90 && data.time-a[3]>=-30).map(a => ({
       id: a[0].toLowerCase(), callsign: String(a[1] || '').trim(), registration: '', model: '', country: String(a[2] || ''),
       lat: a[6], lon: a[5], altitude: number(a[7]) === null ? null : a[7] * 3.28084, ground: !!a[8],

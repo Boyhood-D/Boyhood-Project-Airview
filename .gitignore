@@ -12,3 +12,5 @@ src/*.bundle.js
 assets/earth.jpg
 assets/elevation.jpg
 assets/airports.json
+
+assets/satellites-bootstrap.json

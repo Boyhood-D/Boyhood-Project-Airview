@@ -1,69 +1,39 @@
-# Sources et composants
+# Third-party sources and notices
 
-## Electron / Chromium / Node.js
+## Application and runtime
 
-Electron 45.3.3 : https://github.com/electron/electron — MIT. La distribution conserve ses fichiers `LICENSE` et `LICENSES.chromium.html` avec l'ensemble des notices tierces de Chromium et des autres composants. Node.js et ses composants sont distribués avec leurs notices dans Electron.
+Original Airview code, logo, icon and symbolic artwork are MIT-licensed; see LICENSE. Electron 45.3.3 is MIT-licensed: https://github.com/electron/electron. Its distribution retains LICENSE, LICENSES.chromium.html and runtime third-party notices for Chromium, Node.js and their components. satellite.js 7.2.0 is MIT: https://github.com/shashwatak/satellite-js. tz-lookup 6.1.25 is CC0-1.0: https://github.com/darkskyapp/tz-lookup. Their licence texts are included in assets/licenses. esbuild 0.28.2 is an MIT-licensed build tool. No remote scripts run in the app.
 
-## Carte
+## Natural Earth
 
-Natural Earth, `ne_110m_admin_0_countries.geojson`, téléchargé puis arrondi à trois décimales, limité aux géométries et noms, et compressé en `assets/world.geojson.gz`, depuis :
-https://github.com/nvkelso/natural-earth-vector/blob/master/geojson/ne_110m_admin_0_countries.geojson
+Public-domain simplified country geometry is rounded, reduced to geometry/names and compressed in assets/world.geojson.gz. Source: https://github.com/nvkelso/natural-earth-vector/blob/master/geojson/ne_110m_admin_0_countries.geojson. Terms: https://www.naturalearthdata.com/about/terms-of-use/. Generalized boundaries are unsuitable for legal interpretation or navigation.
 
-Natural Earth est dans le domaine public. https://www.naturalearthdata.com/about/terms-of-use/
-Cette carte généralisée ne convient pas à une navigation ou à une interprétation juridique des frontières.
+## Aircraft data
 
-## ADS-B.lol
+ADS-B.lol and receiver contributions: https://www.adsb.lol; API https://www.adsb.lol/docs/open-data/api. Data use Open Database License 1.0: https://opendatacommons.org/licenses/odbl/1-0/. Attribution appears in the app and exports; redistribution can carry data-licence obligations.
 
-Les données ADS-B.lol et les contributions de ses récepteurs sont fournies sous Open Database License (ODbL) 1.0 : https://opendatacommons.org/licenses/odbl/1-0/
+The OpenSky Network: https://opensky-network.org; API documentation https://openskynetwork.github.io/opensky-api/rest.html. Access remains subject to provider terms and authorization. Airview targets personal noncommercial observation and grants no sublicence to OpenSky data. Anonymous quotas and response headers remain authoritative.
 
-Source : https://www.adsb.lol — API : https://www.adsb.lol/docs/open-data/api
-Attribution visible dans l'application et dans les exports. L'application ne distribue pas un jeu de données aériennes préenregistré. La redistribution d'exports peut être soumise aux obligations de la licence de données.
+ADSBdb: https://www.adsbdb.com; documentation https://github.com/mrjackwills/adsbdb. Individual aircraft and callsign queries are made on selection and cached in session memory. Route information is the work of David Taylor (Edinburgh) and Jim Mason (Glasgow); the provider prohibits copying, publication or incorporation into another database without explicit permission. Airview does not bundle or export a route database. Routes are indicative and not confirmation of the current flight. A code licence does not automatically license all underlying data.
 
-## OpenSky Network
+## Orbital elements
 
-Source : The OpenSky Network, https://opensky-network.org
-Documentation : https://openskynetwork.github.io/opensky-api/rest.html
-L'accès aux données est soumis aux conditions d'utilisation et à l'autorisation du fournisseur. L'application vise l'observation personnelle non commerciale et n'accorde aucune sous-licence sur les données OpenSky.
+CelesTrak GP: https://celestrak.org/NORAD/documentation/gp-data-formats.php and https://celestrak.org/usage-policy.php. Airview requests compressed OMM CSV, caches successful data at least two hours and pauses requests after errors. HTTP 500/503 require at least fifteen minutes for server recovery. No domain rotation bypasses blocks. Free access is not a blanket public-domain declaration. SGP4 estimates depend on element age.
 
-## Code et graphismes de l'application
+Independent TLE API by Ivan Stanojevic: https://tle.ivanstanojevic.me and https://github.com/ivanstan/tle-api, also listed at https://api.nasa.gov/ under TLE API. It serves CelesTrak-derived elements, updated daily. The dated starter file contains a limited selection of 100 popular records, converted from TLE to OMM for compatibility. Source, retrieval time and partial-catalogue status remain in the file. The starter and cached provider data are attributed data, not original Airview orbital measurements; the project MIT code licence does not replace applicable data terms. No NASA endorsement or operation of this third-party service is implied.
 
-Code propre à Airview : MIT, voir LICENSE. Silhouette d'avion et éléments graphiques dessinés pour cette application. Les quelques coordonnées d'aéroports servent uniquement de repères géographiques.
+## Airport directory
 
+OurAirports data are public domain: https://ourairports.com/data/ and https://github.com/davidmegginson/ourairports-data. Build preparation filters closed facilities and selects fields for local search. The bundled directory is not a guaranteed complete or current operational publication.
 
-## satellite.js et tz-lookup
+## NASA imagery and elevation
 
-satellite.js 7.2.0 (MIT), https://github.com/shashwatak/satellite-js ; tz-lookup 6.1.25 (CC0-1.0), https://github.com/darkskyapp/tz-lookup. Textes des licences inclus dans assets/licenses. Les bibliothèques sont compilées localement ; aucune exécution de scripts distants. esbuild 0.28.2 (MIT) est uniquement un outil de compilation.
+NASA Blue Marble Earth image redistributed through the official Three.js examples: https://github.com/mrdoob/three.js/blob/master/examples/textures/planets/earth_atmos_2048.jpg. Three.js is not an application dependency. Global elevation: https://science.nasa.gov/earth/earth-observatory/blue-marble-next-generation/topography-bathymetry-maps/; image by Jesse Allen, NASA Earth Observatory, data GEBCO / British Oceanographic Data Centre. Images are adapted for local colouring/projection. Build URLs and SHA-256 hashes appear in assets/sources.json. NASA imagery terms: https://www.nasa.gov/nasa-brand-center/images-and-media/. No NASA logo, affiliation or endorsement is claimed.
 
-## NASA : imagerie et élévation
+## Online basemaps
 
-Image terrestre NASA Blue Marble diffusée dans les exemples officiels Three.js : https://github.com/mrdoob/three.js/blob/master/examples/textures/planets/earth_atmos_2048.jpg. Élévation globale NASA / GEBCO, 5400 × 2700, 0–6400 m : https://science.nasa.gov/earth/earth-observatory/blue-marble-next-generation/topography-bathymetry-maps/ ; imagerie par Jesse Allen, NASA Earth Observatory, données GEBCO / British Oceanographic Data Centre. Image téléchargée depuis assets.science.nasa.gov ; URL et SHA-256 dans assets/sources.json. Usage des images selon https://www.nasa.gov/nasa-brand-center/images-and-media/ ; aucun logo NASA, aucune affiliation ou approbation implicite. Les couleurs et projections sont adaptées localement dans Canvas 2D. Three.js ne fait plus partie du code de la version 2.1 ; son dépôt officiel reste la source de diffusion de l’image NASA utilisée.
+Map imagery remains subject to provider terms; the application MIT licence does not cover third-party tiles. No online map tiles are bundled in the source or release.
 
-## CelesTrak
-
-https://celestrak.org/NORAD/documentation/gp-data-formats.php ; https://celestrak.org/usage-policy.php. Catalogue GP actif au format OMM JSON, téléchargé à l’exécution et mis en cache au minimum deux heures. En cas d’erreur, pas de nouvelles tentatives pendant deux heures. Aucun catalogue orbital ni base de données CelesTrak n’est embarqué dans la distribution. Gratuité d’accès, pas de déclaration de domaine public sur ces données. Le calcul SGP4 fournit une estimation, sensible à l’âge des éléments.
-
-## OurAirports
-
-https://ourairports.com/data/ — données dans le domaine public. Source airports.csv : https://github.com/davidmegginson/ourairports-data. Transformation en JSON, suppression des installations fermées et sélection de champs pour la recherche locale ; fichier préparé à la compilation et embarqué. Les informations peuvent être incomplètes ou anciennes.
-
-## ADSBdb et routes indicatives
-
-https://www.adsbdb.com ; documentation https://github.com/mrjackwills/adsbdb. Consultation personnelle d’un appareil et d’un callsign à la sélection ; cache de session en mémoire. Selon le fournisseur, les données de routes sont le travail de David Taylor (Edinburgh) et Jim Mason (Glasgow) et ne doivent pas être copiées, publiées ou incorporées dans une autre base sans leur autorisation explicite. Airview n’embarque, ne publie et n’exporte aucune base de routes. Les routes indicatives ne constituent pas une validation du vol actuel. Le code de la bibliothèque ou de l’API n’accorde pas une licence implicite sur toutes les données.
-
-## Identité Airview 2.1.1
-
-Le logo assets/logo.svg et son icône assets/icon.png sont des créations géométriques originales pour Airview, distribuées sous la licence MIT du projet. Ils ne représentent aucune affiliation avec NASA, OpenSky ou CelesTrak.
-
-
-## Fonds détaillés ajoutés en 2.1.2
-
-Les images cartographiques restent la propriété de leurs fournisseurs ; la licence MIT d’Airview ne les couvre pas. Aucune tuile n’est incluse dans les sources ou le ZIP. Les tuiles visibles sont obtenues à la demande et mises en cache dans Airview-data/map-tiles.
-
-- **OpenStreetMap** : © OpenStreetMap contributors, données ODbL ; [attribution](https://www.openstreetmap.org/copyright), [règles des tuiles](https://operations.osmfoundation.org/policies/tiles/). URL officielle, User-Agent Airview identifiable, quatre téléchargements maximum à la fois, pas de préchargement ni téléchargement par région. Cache au moins sept jours et requêtes conditionnelles après expiration. Service communautaire sans garantie de disponibilité.
-- **EOX::Maps / Sentinel-2 cloudless 2025** : EOxCloudless par EOX IT Services GmbH, contient des données Copernicus Sentinel modifiées 2025. [Service](https://maps.eox.at/), [capacités et attribution du calque s2cloudless-2025_3857](https://tiles.maps.eox.at/wmts/1.0.0/WMTSCapabilities.xml), [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/). Utilisation personnelle non commerciale ; cette restriction concerne l’imagerie, pas le code original. Mosaïque annuelle, pas une photographie en direct.
-- **SWISSIMAGE / swisstopo** : © swisstopo. [Produit](https://www.swisstopo.admin.ch/en/swissimage-the-digital-colour-orthophotomosaic), [service XYZ](https://docs.geo.admin.ch/visualize-data/xyz.html), [conditions gratuites et fair use](https://www.geo.admin.ch/en/general-terms-of-use-fsdi). Couverture Suisse uniquement ; disponibilité et résolution variables. Données récupérées par le service officiel, sans clé API, aucune facturation activée.
-
-
-## Actualisation 2.2.0
-
-Le globe et sa géométrie sont du code original MIT, sans nouvelle dépendance graphique. Texture terrestre NASA déjà référencée ci-dessus. Positions et trajectoires calculées avec satellite.js à partir des éléments CelesTrak ; elles ne sont pas de la télémétrie. Quotas consultés le 18 novembre 2026 : [OpenSky REST](https://openskynetwork.github.io/opensky-api/rest.html) et [ADSB.lol API](https://www.adsb.lol/docs/open-data/api). Le calcul local de budget est indicatif ; les limites et temporisations des fournisseurs prévalent.
+- OpenStreetMap: © OpenStreetMap contributors, ODbL data. https://www.openstreetmap.org/copyright and https://operations.osmfoundation.org/policies/tiles/. Official tile endpoint, identifying User-Agent, visible attribution, viewport-only requests, no prefetch, at least seven-day caching and conditional requests after expiration. Community service without an SLA.
+- EOX::Maps / Sentinel-2 cloudless 2025: EOX IT Services GmbH, containing modified Copernicus Sentinel data 2025. https://maps.eox.at/ and https://tiles.maps.eox.at/wmts/1.0.0/WMTSCapabilities.xml. CC BY-NC-SA 4.0: https://creativecommons.org/licenses/by-nc-sa/4.0/. Personal noncommercial use; annual imagery is not a live photograph.
+- SWISSIMAGE: © swisstopo. https://www.swisstopo.admin.ch/en/swissimage-the-digital-colour-orthophotomosaic. XYZ documentation: https://docs.geo.admin.ch/visualize-data/xyz.html. Free access and fair-use terms: https://www.geo.admin.ch/en/general-terms-of-use-fsdi. Switzerland coverage only; availability and resolution vary.

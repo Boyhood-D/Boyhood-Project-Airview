@@ -22,7 +22,7 @@
    for(let dz=1;dz<=t.z;dz++){const n=2**dz,parent=images.get(`${provider}/${t.z-dz}/${Math.floor(t.x/n)}/${Math.floor(t.y/n)}`);if(!parent)continue;const w=parent.image.width/n;ctx.drawImage(parent.image,(t.x%n)*w,(t.y%n)*w,w,w,t.left,t.top,t.size+.5,t.size+.5);break;}
   }
   const max=D.providers[provider].maxZoom,z=Math.log2(p.scale/256),failed=wanted.some(t=>(failures.get(t.key)||0)>Date.now());
-  message(failed?'Fond partiel · connexion indisponible':loaded<wanted.length?'Chargement des détails…':stale?'Carte en cache · connexion indisponible':z>max+.1?'Résolution maximale du fournisseur':D.providers[provider].note);
+  message(failed?'Partial basemap · connection unavailable':loaded<wanted.length?'Loading details…':stale?'Cached map · connection unavailable':z>max+.1?'Maximum provider resolution':D.providers[provider].note);
   return loaded>0;
  }
  document.addEventListener('visibilitychange',()=>{if(!document.hidden)pump();});

@@ -2,9 +2,9 @@
 (function(root){
  'use strict';
  const providers={
-  streets:{maxZoom:19,credit:'© OpenStreetMap contributors',link:'osm',note:'Villes, rues et frontières · OpenStreetMap'},
-  satellite:{maxZoom:14,credit:'EOX::Maps · Sentinel-2 2025 · CC BY-NC-SA 4.0',link:'eox',note:'Mosaïque mondiale 2025 · ~10 m/pixel · usage non commercial'},
-  swiss:{maxZoom:20,credit:'© swisstopo',link:'swiss',note:'Photographies aériennes HD · couverture Suisse uniquement'}
+  streets:{maxZoom:19,credit:'© OpenStreetMap contributors',link:'osm',note:'Cities, streets and borders · OpenStreetMap'},
+  satellite:{maxZoom:14,credit:'EOX::Maps · Sentinel-2 2025 · CC BY-NC-SA 4.0',link:'eox',note:'Global 2025 mosaic · ~10 m/pixel · noncommercial use'},
+  swiss:{maxZoom:20,credit:'© swisstopo',link:'swiss',note:'HD aerial imagery · Switzerland coverage only'}
  };
  function valid(q){return !!(q&&Object.hasOwn(providers,q.provider)&&Number.isInteger(q.z)&&q.z>=0&&q.z<=providers[q.provider].maxZoom&&Number.isInteger(q.x)&&q.x>=0&&q.x<2**q.z&&Number.isInteger(q.y)&&q.y>=0&&q.y<2**q.z);}
  function url(q){if(!valid(q))throw new Error('Invalid map tile');const {provider,z,x,y}=q;return provider==='streets'?`https://tile.openstreetmap.org/${z}/${x}/${y}.png`:provider==='satellite'?`https://tiles.maps.eox.at/wmts/1.0.0/s2cloudless-2025_3857/default/g/${z}/${y}/${x}.jpg`:`https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.swissimage/default/current/3857/${z}/${x}/${y}.jpeg`;}
