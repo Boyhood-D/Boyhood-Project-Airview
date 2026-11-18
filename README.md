@@ -1,7 +1,7 @@
 <p align="center"><img src="assets/logo.svg" width="88" alt="Logo Airview"></p>
 
 <h1 align="center">Airview</h1>
-<p align="center"><strong>Le trafic aérien et les satellites, sur une carte 2D claire.</strong><br>Application Windows portable · Interface française · Gratuite</p>
+<p align="center"><strong>Deux espaces pour explorer le ciel : les vols sur une carte, les satellites sur un globe.</strong><br>Application Windows portable · Interface française · Gratuite</p>
 <p align="center"><a href="https://github.com/Boyhood-D/Boyhood-Project-Airview/releases/latest"><strong>Télécharger pour Windows</strong></a> · <a href="docs/USER_GUIDE.md">Guide complet</a> · <a href="CHANGELOG.md">Nouveautés</a> · <a href="https://github.com/Boyhood-D/Boyhood-Project-Airview/issues">Signaler un problème</a></p>
 
 ---
@@ -13,7 +13,7 @@ Airview est un poste d’observation pour les passionnés d’aviation et d’es
 | Aviation | Espace & cartographie |
 | --- | --- |
 | Trafic mondial reçu par OpenSky | Satellites actifs publics et ISS |
-| Fiches d’identité et phases de vol estimées | Positions SGP4 et traces orbitales projetées |
+| Fiches d’identité et phases de vol estimées | Globe orientable, positions SGP4 et trajectoires orbitales |
 | Suivi, favoris et traînées de session | Plan détaillé, satellite mondial et Suisse HD |
 | Recherche mondiale d’aéroports | Cycle jour/nuit et calques indépendants |
 | Filtres, relecture et exports CSV/JSON | Interface personnalisable et animations discrètes |
@@ -41,7 +41,7 @@ La couverture dépend des réseaux publics et de leurs quotas : Airview ne garan
 | NASA / GEBCO / Natural Earth | Imagerie, relief et fond de carte |
 | OurAirports | Annuaire d’installations aéronautiques |
 
-**Version 2.1.2** : cartes détaillées au zoom, aérodromes et héliports affichés progressivement, interface simplifiée et démarrage visible dès l’ouverture de la fenêtre.
+**Version 2.2.0** : navigation Vols / Espace, globe orbital avec jour/nuit, ISS et sélection isolée, interface simplifiée, introduction radar-avion et actualisation aérienne adaptative. Le budget des fournisseurs persiste après fermeture. La cadence peut être de plusieurs minutes ; les positions anciennes restent explicitement signalées.
 
 L’imagerie mondiale Sentinel-2 (~10 m/pixel, mosaïque 2025) ne remplace pas la très haute résolution de Google Earth. Suisse HD couvre la Suisse ; hors de cette zone, choisir le plan ou le satellite mondial. Le calque EOX est réservé à un usage non commercial (CC BY-NC-SA 4.0).
 

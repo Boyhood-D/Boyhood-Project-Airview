@@ -1,0 +1,5 @@
+const {test}=require('node:test'),assert=require('node:assert/strict'),g=require('../src/globe-math.cjs');
+test('the globe camera centers the geographic point for every longitude',()=>{for(const lat of [-80,0,46,80])for(const lon of [-179,0,179]){const p=g.project(g.vector(lat,lon),g.camera(lat,lon));assert.ok(Math.abs(p[0])<1e-12);assert.ok(Math.abs(p[1])<1e-12);assert.ok(Math.abs(p[2]-1)<1e-12);}});
+test('the Earth occludes satellites behind it while high orbit remains visible outside the limb',()=>{assert.equal(g.visible([0,0,-1.1]),false);assert.equal(g.visible([1.2,0,-1]),true);assert.equal(g.visible([0,0,1]),true);});
+test('orbital height is rendered above the surface in the same physical scale',()=>{const v=g.vector(0,0,6371);assert.equal(Math.hypot(...v),2);assert.equal(Math.hypot(...g.vector(0,0,-1)),1);});
+test('camera basis is orthonormal and transformations reuse buffers',()=>{const c=g.camera(32,179),p=[],v=[];assert.equal(g.vector(25,-179,400,v),v);assert.equal(g.project(v,c,p),p);assert.ok(Math.abs(Math.hypot(...v)-Math.hypot(...p))<1e-12);});

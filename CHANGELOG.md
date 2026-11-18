@@ -1,5 +1,15 @@
 # Versions
 
+## 2.2.0 — 18 novembre 2026
+
+- Deux espaces : Vols conserve la carte 2D et les aéroports ; Espace présente les satellites sur un globe orientable au glisser, à la molette et au clavier. ISS sélectionnée par défaut, recherche NORAD/COSPAR/nom, orbite prévue et isolation de la sélection. Les satellites ne sont plus dessinés sur la carte des avions.
+- Globe texturé NASA, hauteur orbitale à l’échelle et occultation par la Terre ; jour/nuit astronomique sur le globe et la carte. Positions SGP4 calculées localement toutes les cinq secondes. Catalogue CelesTrak conservé au moins deux heures ; délai de nouvelle tentative conservé après fermeture.
+- Refonte : navigation centrale, couleurs sobres, listes et fiches allégées, réglages avancés repliés, suppression des contrôles satellites de la carte des vols. Introduction radar détectant un avion, visible après la première image de la fenêtre, réduction des mouvements respectée.
+- Actualisation aérienne adaptative : répartition du quota estimé restant sur la fin de journée UTC, réserve de 5 %, respect des en-têtes de quota et des délais fournisseur. Budget conservé dans Airview-data/traffic-budget.json ; rafraîchir, déplacer la carte ou relancer ne recharge pas le quota. La cadence n’est pas fixée à dix secondes. Les relevés anciens restent visibles jusqu’à 24 h dans la session, grisés et datés ; aucune extrapolation au-delà de 15 s.
+- Calcul de surface du globe et propagation orbitale dans deux Workers distincts, images du globe plafonnées à 448 px et mises en cache, affichage à 30 i/s pour une sélection isolée et 15 i/s pour le catalogue complet. Cibles de clic réutilisées ; arrêt du dessin et des requêtes aériennes dans l’espace orbital, des calculs lorsque l’application est masquée.
+- 51 tests automatisés, dont géométrie et occultation du globe, budget persistant, réserve, baisse de quota serveur et temporisation traversant minuit. Contrôles visuels sur le catalogue public réel et le portable Windows.
+
+
 ## 2.1.2 — 18 novembre 2026
 
 - Interface clarifiée, calques refermables, surfaces et fiches plus lisibles, meilleur espace pour les listes sur les petits écrans. Retrait du mode ATC décoratif. Animations brèves, focus clavier et réduction des mouvements respectés.

@@ -1,0 +1,11 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path');
+const limits={opensky:{daily:400,cost:4,min:10},adsb:{daily:500,cost:1,min:15}};
+function day(now){return new Date(now).toISOString().slice(0,10);}
+function schedule(provider,record,now){const l=limits[provider],reset=Date.parse(day(now)+'T00:00:00Z')+86400000,remaining=Math.min(l.daily,Math.max(0,Number.isFinite(record.remaining)?record.remaining:l.daily)),reserve=Math.ceil(l.daily*.05),requests=Math.floor((remaining-reserve)/l.cost);return {remaining,reset,reserve,seconds:requests>0?Math.max(l.min,Math.ceil((reset-now)/1000/requests)):Math.max(l.min,Math.ceil((reset-now)/1000)),available:requests>0};}
+function createBudget(file,now=Date.now){let state={};try{const value=JSON.parse(fs.readFileSync(file,'utf8'));if(value&&typeof value==='object')state=value;}catch{}
+ function save(){if(!file)return;try{fs.mkdirSync(path.dirname(file),{recursive:true});fs.writeFileSync(file+'.tmp',JSON.stringify(state));fs.renameSync(file+'.tmp',file);}catch{}}
+ function record(provider){if(state.day!==day(now())){state={day:day(now()),providers:{},blocks:state.blocks||{}};save();}if(!state.providers||typeof state.providers!=='object')state.providers={};return state.providers[provider]||(state.providers[provider]={remaining:limits[provider].daily,next:0});}
+ return {plan(provider){const r=record(provider),p=schedule(provider,r,now());return {...p,wait:Math.max(0,Math.ceil((Math.max((p.available?r.next:p.reset)||0,state.blocks?.[provider]||0)-now())/1000))};},charge(provider){const r=record(provider);r.remaining=Math.max(0,r.remaining-limits[provider].cost);r.next=now()+schedule(provider,r,now()).seconds*1000;save();},observe(provider,headers){const r=record(provider),raw=headers.get('x-rate-limit-remaining');if(raw!==null&&Number.isFinite(Number(raw)))r.remaining=Math.min(r.remaining,Math.max(0,Number(raw)));r.next=Math.max(r.next,now()+schedule(provider,r,now()).seconds*1000);save();},block(provider,seconds){record(provider).next=Math.max(record(provider).next,now()+seconds*1000);state.blocks||={};state.blocks[provider]=Math.max(state.blocks[provider]||0,now()+seconds*1000);save();}};
+}
+module.exports={createBudget,schedule};

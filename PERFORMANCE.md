@@ -1,42 +1,21 @@
-# Airview 2.1.2 — validation et performances
+# Airview 2.2.0 — validation et performances
 
-Carte 2D uniquement, Canvas, sans Three.js ni scène WebGL.
+## Moteurs et ressources
 
-## Correctif 2.1.1
+La carte des vols conserve Canvas 2D et ses tuiles visibles mises en cache, avec quatre requêtes simultanées au maximum. L’espace orbital utilise une projection 3D orthographique calculée sans moteur WebGL supplémentaire : positions en latitude/longitude/altitude, caméra orbitale et occultation terrestre. Les orbites et les altitudes sont exprimées à l’échelle du rayon terrestre de 6 371 km.
 
-La boucle satellite réutilise deux buffers (position orbitale et position écran), au lieu de créer de nouveaux tableaux pour chaque objet. La projection courante est obtenue une fois par dessin. Les valeurs des cibles de clic restent copiées, pour ne pas aliaser un buffer réutilisé. Les appels de dessin et le nombre de satellites affichés restent dépendants du calque activé.
+La surface NASA éclairée jour/nuit est calculée dans un Worker à 448 × 448 pixels, indépendamment du dessin de l’interface. Elle est recalculée seulement si l’orientation ou la minute astronomique change. SGP4 reste dans un second Worker, toutes les cinq secondes. La sélection isolée est dessinée à 30 images/s au maximum ; le catalogue complet à 15 images/s. Les objets des cibles de clic sont réutilisés entre images. Aucun taux universel de fluidité n’est garanti.
 
-La liste des avions ne remplace son HTML que si les valeurs affichées changent. Sa clé inclut la phase, les métadonnées, le thème et le mode, pour conserver des valeurs et couleurs correctes. La recherche est temporisée de 140 ms. Les phases anciennes ont une échéance explicite à 90 secondes. Les formateurs de nombres sont réutilisés.
+La carte des vols ne se redessine pas et ne demande pas de nouveaux relevés pendant que l’utilisateur explore Espace. L’application masquée suspend les calculs orbitaux et les dessins. Les métadonnées des appareils restent chargées à la sélection ; les listes affichent au plus 200 avions ou 100 résultats orbitaux. Le cache cartographique, l’index des aéroports et les sprites de silhouettes sont conservés de 2.1.2.
 
-Les animations de démarrage et de panneaux portent sur opacité et transformation. L’introduction ne dépend pas du réseau et possède une sortie de secours après 3,5 secondes visibles (garde de secours de 8 s pour l’IPC), en plus du bouton pour passer. Réduction des animations système et option de l’application respectées.
+## Budget réseau
 
-Aucun pourcentage d’accélération globale n’est revendiqué sans benchmark comparable. Les tests supplémentaires vérifient le buffer de projection, l’interpolation à l’antiméridien et la sortie du démarrage avec ou sans signal de disponibilité.
+Le budget aérien est persistant et tient compte de la source, du coût global, du quota restant, de la réserve de 5 % et du temps avant la prochaine journée UTC locale. La cadence augmente ou diminue selon cette estimation ; elle ne constitue pas un droit d’accès. Les réponses de quota plus basses et les délais HTTP s’imposent au budget local. Un délai fournisseur traversant minuit reste actif. Il n’y a aucune rotation d’IP, de comptes ou de sources pour contourner un refus.
 
-## Optimisations
-
-- Fond de carte et grille mis en cache ; nouveau calcul uniquement au déplacement / changement des calques, ou une fois par minute pour le terminateur solaire.
-- Textures globales reprojetées une fois en Mercator, largeur de travail plafonnée à 2048 pixels ; ces fonds embarqués ne téléchargent aucune tuile.
-- Sprites de silhouettes par catégorie / couleur / orientation mis en cache. Regroupement des avions en vue mondiale.
-- Phases mémorisées par observation, avec invalidation au chargement des aéroports, changement d’observation ou passage à des données anciennes. Index géographique pour la proximité des aéroports.
-- Métadonnées uniquement à la sélection, cache de 500 identifiants maximum ; annuaire local mondial et listes DOM bornées.
-- SGP4 dans un Web Worker : positions à cinq secondes d’écart et interpolation visuelle. Une seule orbite sélectionnée à 181 points ; possibilité d’isoler le satellite choisi.
-- Repos du dessin sans mouvement, arrêt de l’animation et des calculs orbitaux lorsque la page est masquée.
-- Traînées limitées à 20 minutes / 120 points par appareil ; relecture bornée à 40 relevés et 120 000 rapports.
-- Catalogue orbital en cache deux heures minimum ; trafic mondial à 120 secondes minimum et backoff HTTP.
+Les anciennes positions ne sont extrapolées que 15 secondes ; elles restent consultables grises et datées jusqu’à 24 heures dans la session, avec une phase inconnue après vieillissement. Le catalogue orbital et la prochaine tentative CelesTrak sont en cache portable au moins deux heures. Aucun catalogue orbital n’est inclus au ZIP.
 
 ## Validation
 
-41 tests automatisés, dont huit nouveaux contrôles cartographiques / démarrage : les 22 tests de la version 2.0 et six tests de classification de phase, couvrant état au sol, données manquantes, vieillissement, proximité / élévation des aéroports, transition de décollage, transition d’atterrissage et variomètre dérivé. La référence Vallado vérifie également le calcul SGP4 à l’époque.
+51 tests automatisés réussis : normalisation aérienne, filtres et export, phases, projection et interpolation, références SGP4, sécurité des appels réseau, tuiles et cache, démarrage, géométrie du globe, altitude physique et occultation, réserve et planification du quota, persistance et temporisation traversant minuit. Essais d’interface sur données publiques réelles : catalogue de plus de 16 000 satellites, ISS sélectionnée et trajectoire, séparation des espaces et cycle jour/nuit. Le portable Windows est contrôlé avant publication.
 
-Essais visuels sur données publiques réelles : carte d’identité, phase expliquée, recherche par indicatif, ISS et projection de son orbite sur la carte 2D. Les limites de l’historique aéroport (HTTP 403 anonyme) sont affichées, sans inventer de tableau commercial.
-
-Les FPS dépendent du matériel, du nombre de satellites affichés, du zoom et des autres applications. Aucune garantie de cadence universelle ni de couverture exhaustive des données. Les phases sont des estimations documentées, pas une donnée opérationnelle confirmée.
-
-
-## Correctif 2.1.2
-
-Les cartes détaillées utilisent des tuiles de 256 pixels, uniquement à l’écran. Le cache de fond Canvas est conservé entre les images des avions. Quatre requêtes au maximum et 128 images décodées ; pas de chargement de zones voisines invisibles. Les requêtes attendent 160 ms après un mouvement de vue, la file suit la vue courante et les tuiles parentes déjà vues servent de transition. Les tuiles HTTP sont en cache portable au moins sept jours avec ETag / Last-Modified, et restent utilisables si la connexion échoue. Refus 403 : pause fournisseur de 24 heures ; 429 : pause au moins 60 secondes.
-
-Les aérodromes sont indexés par cellules géographiques de 1°, puis filtrés selon le champ visible ; leur liste projetée est réutilisée tant que la vue ne change pas. Les labels sont espacés. La grille est limitée à l’étendue visible même à très fort zoom. Le balayage ATC et ses redessins continus ont été retirés.
-
-Microbenchmark CPU local du tri de distance, 10 000 appareils synthétiques, médiane de neuf essais le 18 novembre 2026 : 15,302 ms pour le comparateur recalculant les distances contre 6,855 ms pour le tri indexé existant. Ce contrôle confirme une optimisation conservée ; il ne mesure ni une accélération globale de 2.1.2, ni la cadence du portable, ni la latence des fournisseurs.
+Le dernier relevé par source est conservé dans deux fichiers de cache au maximum (pas de pile historique). Une relance restaure le relevé daté et respecte le délai existant, sans refaire de requête. Un test supplémentaire vérifie cette restauration sans consommation. Les services publics peuvent renvoyer des erreurs : un HTTP 500 CelesTrak a été rencontré lors du test Windows ; le globe reste utilisable et le catalogue déjà présent en cache sert de repli.

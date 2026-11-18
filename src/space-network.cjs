@@ -5,7 +5,7 @@ const clock=require('./clock.cjs');
 let catalogPromise=null,blockedUntil=0,catalogMemory=null;
 const metaCache=new Map(),boardCache=new Map();
 async function json(url) {
-  const r=await fetch(url,{signal:AbortSignal.timeout(25000),headers:{'User-Agent':'Airview/2.0 personal observation'}});
+  const r=await fetch(url,{signal:AbortSignal.timeout(25000),headers:{'User-Agent':'Airview/2.2.0 personal observation'}});
   if(!r.ok)throw new Error(`HTTP ${r.status}`);
   clock.observe(r.headers);
   const size=Number(r.headers.get('content-length'));if(size>30000000)throw new Error('Réponse trop volumineuse');
@@ -18,8 +18,10 @@ async function satellites(dataDir) {
     let cached=catalogMemory;
     if(!cached)try{cached=JSON.parse(fs.readFileSync(file,'utf8'));}catch{}
     if(cached&&Date.now()-cached.fetchedAt<7200000)return {ok:true,...cached,...clock.state(),cached:true};
+    try{blockedUntil=Math.max(blockedUntil,JSON.parse(fs.readFileSync(path.join(dataDir,'satellite-next.json'),'utf8')).next||0);}catch{}
     if(Date.now()<blockedUntil)return cached?{ok:true,...cached,stale:true,message:'Catalogue en cache ; fournisseur temporairement indisponible.'}:{ok:false,message:'Catalogue orbital temporairement indisponible. Réessaie dans deux heures.'};
     blockedUntil=Date.now()+7200000;
+    try{fs.mkdirSync(dataDir,{recursive:true});fs.writeFileSync(path.join(dataDir,'satellite-next.json'),JSON.stringify({next:blockedUntil}));}catch{}
     try {
       const data=await json('https://celestrak.org/NORAD/elements/gp.php?GROUP=active&FORMAT=JSON');
       if(!Array.isArray(data)||!data.length||data.length>100000||!data.every(s=>s.NORAD_CAT_ID&&s.EPOCH&&Number.isFinite(Number(s.MEAN_MOTION))))throw new Error('Catalogue invalide');

@@ -8,4 +8,9 @@ test('429 respects retry delay and reports no synthetic traffic',async()=>{
   const original=global.fetch;global.fetch=async()=>({ok:false,status:429,headers:new Headers({'retry-after':'1800'})});
   try{const {traffic}=require('../src/network.cjs');const result=await traffic({provider:'opensky',lat:0,lon:0});assert.equal(result.ok,false);assert.equal(result.retryAfter,1800);assert.equal(result.aircraft,undefined);}finally{global.fetch=original;}
 });
+test('restart restores the dated snapshot without consuming another quota request',async()=>{
+ const fs=require('node:fs'),os=require('node:os'),path=require('node:path'),dir=fs.mkdtempSync(path.join(os.tmpdir(),'airview-traffic-')),original=global.fetch;let calls=0;
+ global.fetch=async()=>{calls++;return {ok:true,json:async()=>({ac:[]}),headers:new Headers()};};
+ try{const api=require('../src/network.cjs');api.configureBudgetDir(dir);const query={provider:'adsb',lat:46.8,lon:8.2},first=await api.traffic(query);api.configureBudgetDir(dir);const restored=await api.traffic(query);assert.ok(restored.ok&&restored.cached);assert.equal(restored.receivedAt,first.receivedAt);assert.equal(calls,1);}finally{global.fetch=original;fs.rmSync(dir,{recursive:true,force:true});}
+});
 

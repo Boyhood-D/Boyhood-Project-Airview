@@ -6,6 +6,7 @@ const { traffic } = require('../src/network.cjs');
 const space=require('../src/space-network.cjs');
 const maps=require('../src/map-network.cjs').createMapService();
 const root = path.resolve(__dirname, '..');
+require('../src/network.cjs').configureBudgetDir(path.join(root,'Airview-data'));
 const types = {'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.cjs':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.geojson':'application/json','.json':'application/json','.jpg':'image/jpeg','.png':'image/png','.svg':'image/svg+xml'};
 http.createServer(async (req,res) => {
   const url = new URL(req.url, 'http://127.0.0.1');

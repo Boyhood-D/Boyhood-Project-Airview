@@ -9,9 +9,9 @@ function launch(reduced=false,showDelay=null){
 }
 test('startup cannot trap the app when initialization never signals ready',()=>{const app=launch();app.advance(4000);assert.equal(app.removed,true);assert.ok(app.classes.has('app-ready'));});
 test('skip dismisses startup without waiting for a network or ready event',()=>{const app=launch();app.skip();app.advance(300);assert.equal(app.removed,true);});
-test('reduced motion preserves a visible static introduction before dismissal',()=>{const app=launch(true);app.ready();app.advance(1000);assert.equal(app.removed,false);app.advance(1200);assert.equal(app.removed,true);assert.ok(app.classes.has('app-ready'));});
-test('normal startup stays visible then dismisses without waiting for providers',()=>{const app=launch();app.ready();app.advance(1100);assert.equal(app.removed,false);app.advance(1500);assert.equal(app.removed,true);});
+test('reduced motion preserves a visible static introduction before dismissal',()=>{const app=launch(true);app.ready();app.advance(1000);assert.equal(app.removed,false);app.advance(2000);assert.equal(app.removed,true);assert.ok(app.classes.has('app-ready'));});
+test('normal startup stays visible then dismisses without waiting for providers',()=>{const app=launch();app.ready();app.advance(1100);assert.equal(app.removed,false);app.advance(2200);assert.equal(app.removed,true);});
 
-test('intro timing starts after native window acknowledgement, not renderer readiness',()=>{const app=launch(false,700);app.ready();app.advance(1700);assert.equal(app.removed,false);app.advance(2100);assert.equal(app.removed,true);});
+test('intro timing starts after native window acknowledgement, not renderer readiness',()=>{const app=launch(false,700);app.ready();app.advance(1700);assert.equal(app.removed,false);app.advance(2900);assert.equal(app.removed,true);});
 
 test('a missing native reply cannot trap the startup overlay',()=>{const app=launch(false,100000);app.ready();app.advance(8500);assert.equal(app.removed,true);});

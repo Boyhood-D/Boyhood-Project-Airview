@@ -8,6 +8,7 @@ const maps = require('./map-network.cjs').createMapService();
 const dataDir = path.join(app.isPackaged ? path.dirname(app.getPath('exe')) : app.getAppPath(), 'Airview-data');
 try { fs.mkdirSync(dataDir, { recursive: true }); app.setPath('userData', dataDir); app.setPath('sessionData', path.join(dataDir, 'cache')); }
 catch { dialog.showErrorBox('Dossier non accessible', 'Extrais Airview dans un dossier où tu peux écrire, puis relance-le.'); app.exit(1); }
+require('./network.cjs').configureBudgetDir(dataDir);
 app.setAppUserModelId('Airview.Desktop');
 // Canvas rendering does not need a discrete GPU. This avoids black windows on
 // remote desktops and some Windows graphics drivers while preserving Chromium's sandbox.

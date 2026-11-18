@@ -1,10 +1,25 @@
-# Airview 2.1.2 — tout sur la carte 2D
+# Airview 2.2.0 — Vols & Espace
+
+## Nouveautés et parcours principal
+
+La navigation en haut sépare **Vols** et **Espace**. Vols conserve le plan détaillé et les aéroports. Espace ouvre un globe terrestre : glisser pour tourner, molette ou +/− pour zoomer, flèches au clavier lorsque le globe a le focus. L’ISS est sélectionnée au chargement du catalogue. Rechercher un satellite par nom, NORAD ou COSPAR ; sa fiche et une révolution prévue apparaissent. « Isoler la sélection » évite d’afficher simultanément des milliers de points. Décocher permet d’afficher le catalogue, dans les limites du champ de vue. Jour/nuit utilise la position astronomique du Soleil et peut être désactivé dans chaque vue ; le réglage est partagé.
+
+Les positions SGP4 sont **calculées**, pas une télémétrie en direct. Le calcul se fait toutes les cinq secondes, puis l’affichage interpole entre deux calculs. L’altitude du globe est à l’échelle terrestre ; la trajectoire est exprimée dans le repère terrestre et les parties cachées par la planète sont occultées. Le catalogue actif public ne garantit pas tous les objets en orbite. Les éléments sont récupérés au maximum une fois toutes les deux heures et leur ancienneté apparaît dans la fiche.
+
+## Actualisation intelligente et gratuité
+
+L’application répartit le budget public estimé sur la fin de journée UTC, garde 5 % de réserve et ralentit si le serveur annonce moins de crédits. Le compteur et les temporisations sont enregistrés dans Airview-data/traffic-budget.json. Relancer l’application ou changer de secteur ne remet pas les crédits à zéro. Les délais demandés par le serveur restent prioritaires, même si une nouvelle journée commence.
+
+OpenSky anonyme annonce 400 crédits/jour/IP (4 pour un relevé mondial). ADS-B.lol annonce 500 requêtes/jour/IP sans clé. La cadence peut être de plusieurs minutes : rester dans les quotas gratuits ne permet pas un direct mondial permanent à dix secondes. La planification utilise des journées UTC locales ; le serveur reste l’autorité sur son quota, son échéance et sa disponibilité. Le budget peut être partagé avec d’autres utilisateurs de la même IP et changer sans préavis. Aucune promesse d’accès réseau illimité.
+
+La carte reste consultable, ainsi que le dernier relevé de la session, jusqu’à 24 h sans nouveau rapport. Les positions anciennes sont grisées, leur ancienneté est affichée, les phases anciennes deviennent inconnues et la projection de mouvement s’arrête après 15 s. Il ne s’agit pas d’une position actuelle lorsque les données ont vieilli. Après fermeture, le dernier relevé de chaque source est conservé comme cache pendant au plus 24 h, avec sa date réelle. Les traînées et la relecture de session ne sont pas enregistrées. Budget, préférences et caches restent dans Airview-data. Les calculs satellites sont locaux, indépendants des crédits du trafic aérien.
+
 
 Radar mondial portable et gratuit pour Windows 10/11 x64. Carte 2D uniquement : le globe, les modèles 3D et Three.js ont été retirés. Aucun compte ni clé API, aucune souscription.
 
 ## Télécharger
 
-Dans [Releases](https://github.com/Boyhood-D/Boyhood-Project-Airview/releases), télécharger **Airview-2.1.2-Windows-x64.zip**, extraire tout le ZIP, puis ouvrir **Airview.exe**. Vérifier l’empreinte SHA-256 fournie. L’exécutable n’est pas signé commercialement ; Windows peut afficher un avertissement d’origine. Internet est nécessaire pour les relevés récents.
+Dans [Releases](https://github.com/Boyhood-D/Boyhood-Project-Airview/releases), télécharger **Airview-2.2.0-Windows-x64.zip**, extraire tout le ZIP, puis ouvrir **Airview.exe**. Vérifier l’empreinte SHA-256 fournie. L’exécutable n’est pas signé commercialement ; Windows peut afficher un avertissement d’origine. Internet est nécessaire pour les relevés récents.
 
 ## Correctif 2.1.2
 
