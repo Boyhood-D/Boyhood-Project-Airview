@@ -1,5 +1,7 @@
 const { contextBridge, ipcRenderer } = require('electron');
 contextBridge.exposeInMainWorld('radar', {
+  showWindow: () => ipcRenderer.invoke('startup:show'),
+  mapTile: q => ipcRenderer.invoke('map:tile',q),
   satellites: () => ipcRenderer.invoke('satellites'),
   metadata: q => ipcRenderer.invoke('metadata',q),
   airportBoard: q => ipcRenderer.invoke('airport-board',q),

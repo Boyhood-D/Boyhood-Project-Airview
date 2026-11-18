@@ -4,10 +4,12 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { traffic } = require('../src/network.cjs');
 const space=require('../src/space-network.cjs');
+const maps=require('../src/map-network.cjs').createMapService();
 const root = path.resolve(__dirname, '..');
 const types = {'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.cjs':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.geojson':'application/json','.json':'application/json','.jpg':'image/jpeg','.png':'image/png','.svg':'image/svg+xml'};
 http.createServer(async (req,res) => {
   const url = new URL(req.url, 'http://127.0.0.1');
+  if(url.pathname==='/api/mapTile'){const q=Object.fromEntries(url.searchParams);for(const k of ['z','x','y'])q[k]=Number(q[k]);const r=await maps.tile(q,path.join(root,'Airview-data'));res.writeHead(200,{'Content-Type':'application/json'});res.end(JSON.stringify(r));return;}
   if(['/api/satellites','/api/metadata','/api/airportBoard'].includes(url.pathname)){ const q=Object.fromEntries(url.searchParams); const result=await (url.pathname.endsWith('satellites')?space.satellites(path.join(root,'Airview-data')):url.pathname.endsWith('metadata')?space.metadata(q):space.airportBoard(q));res.writeHead(200,{'Content-Type':'application/json'});res.end(JSON.stringify(result));return;}
   if(url.pathname === '/api/traffic') {
     const result = await traffic(Object.fromEntries(url.searchParams));

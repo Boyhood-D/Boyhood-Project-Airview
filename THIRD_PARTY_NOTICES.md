@@ -53,3 +53,12 @@ https://www.adsbdb.com ; documentation https://github.com/mrjackwills/adsbdb. Co
 ## Identité Airview 2.1.1
 
 Le logo assets/logo.svg et son icône assets/icon.png sont des créations géométriques originales pour Airview, distribuées sous la licence MIT du projet. Ils ne représentent aucune affiliation avec NASA, OpenSky ou CelesTrak.
+
+
+## Fonds détaillés ajoutés en 2.1.2
+
+Les images cartographiques restent la propriété de leurs fournisseurs ; la licence MIT d’Airview ne les couvre pas. Aucune tuile n’est incluse dans les sources ou le ZIP. Les tuiles visibles sont obtenues à la demande et mises en cache dans Airview-data/map-tiles.
+
+- **OpenStreetMap** : © OpenStreetMap contributors, données ODbL ; [attribution](https://www.openstreetmap.org/copyright), [règles des tuiles](https://operations.osmfoundation.org/policies/tiles/). URL officielle, User-Agent Airview identifiable, quatre téléchargements maximum à la fois, pas de préchargement ni téléchargement par région. Cache au moins sept jours et requêtes conditionnelles après expiration. Service communautaire sans garantie de disponibilité.
+- **EOX::Maps / Sentinel-2 cloudless 2025** : EOxCloudless par EOX IT Services GmbH, contient des données Copernicus Sentinel modifiées 2025. [Service](https://maps.eox.at/), [capacités et attribution du calque s2cloudless-2025_3857](https://tiles.maps.eox.at/wmts/1.0.0/WMTSCapabilities.xml), [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/). Utilisation personnelle non commerciale ; cette restriction concerne l’imagerie, pas le code original. Mosaïque annuelle, pas une photographie en direct.
+- **SWISSIMAGE / swisstopo** : © swisstopo. [Produit](https://www.swisstopo.admin.ch/en/swissimage-the-digital-colour-orthophotomosaic), [service XYZ](https://docs.geo.admin.ch/visualize-data/xyz.html), [conditions gratuites et fair use](https://www.geo.admin.ch/en/general-terms-of-use-fsdi). Couverture Suisse uniquement ; disponibilité et résolution variables. Données récupérées par le service officiel, sans clé API, aucune facturation activée.

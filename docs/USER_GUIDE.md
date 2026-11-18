@@ -1,12 +1,12 @@
-# Airview 2.1.1 — tout sur la carte 2D
+# Airview 2.1.2 — tout sur la carte 2D
 
 Radar mondial portable et gratuit pour Windows 10/11 x64. Carte 2D uniquement : le globe, les modèles 3D et Three.js ont été retirés. Aucun compte ni clé API, aucune souscription.
 
 ## Télécharger
 
-Dans [Releases](https://github.com/Boyhood-D/Boyhood-Project-Airview/releases), télécharger **Airview-2.1.1-Windows-x64.zip**, extraire tout le ZIP, puis ouvrir **Airview.exe**. Vérifier l’empreinte SHA-256 fournie. L’exécutable n’est pas signé commercialement ; Windows peut afficher un avertissement d’origine. Internet est nécessaire pour les relevés récents.
+Dans [Releases](https://github.com/Boyhood-D/Boyhood-Project-Airview/releases), télécharger **Airview-2.1.2-Windows-x64.zip**, extraire tout le ZIP, puis ouvrir **Airview.exe**. Vérifier l’empreinte SHA-256 fournie. L’exécutable n’est pas signé commercialement ; Windows peut afficher un avertissement d’origine. Internet est nécessaire pour les relevés récents.
 
-## Correctif 2.1.1
+## Correctif 2.1.2
 
 Logo original minimaliste et lancement animé local : transition courte, bouton pour passer et fermeture automatique au plus tard après environ trois secondes même si les données réseau sont indisponibles. La réduction des animations Windows et l’option d’animations de l’application sont respectées. Aucun téléchargement ou abonnement ajouté.
 
@@ -85,3 +85,16 @@ Node.js récent ; Windows x64 pour produire le portable :
 Le script de préparation télécharge les images NASA et l’annuaire OurAirports et enregistre les sources et SHA-256 dans ../assets/sources.json. Les bundles, images et annuaire générés ne sont pas versionnés ; ils sont embarqués dans le ZIP. Aucun workflow GitHub Actions payant requis : compilation locale. Sources et conditions dans THIRD_PARTY_NOTICES.md. Code Airview sous MIT.
 
 **Loisir et observation personnelle uniquement. Aucun usage de navigation, contrôle aérien, séparation ou sécurité des vols.**
+
+
+## Cartes détaillées et navigation — 2.1.2
+
+**Calques → Fond de carte** ouvre les six fonds. Plan détaillé affiche les villes, rues, bâtiments et frontières selon leur présence dans OpenStreetMap. Satellite mondial utilise Sentinel-2 cloudless 2025 (~10 m/pixel) ; zoomer après le niveau 14 agrandit la meilleure image disponible, sans ajouter de précision. Suisse HD utilise SWISSIMAGE en Suisse jusqu’au niveau 20. Hors Suisse, les tuiles peuvent être blanches : choisir un autre fond. Les images ne sont pas des vues en temps réel et leur date varie. Les trois fonds embarqués offrent une vue globale moins détaillée lorsque le réseau manque.
+
+Les petits aérodromes et héliports apparaissent au niveau 9 ; à partir du niveau 13, les installations visibles ne sont plus regroupées. Les grands aéroports restent visibles à distance. Les étiquettes sont espacées pour préserver la lisibilité. La recherche Aéroports couvre les 72 705 installations non fermées de l’annuaire fourni, indépendamment du zoom. Un annuaire public n’est pas une liste opérationnelle complète ou garantie à jour.
+
+Les calques se ferment avec ×, Échap ou un clic en dehors. L’animation d’introduction démarre après l’affichage effectif de la fenêtre et ne dépend pas du réseau. Si Windows demande de réduire les mouvements, le logo reste brièvement visible sans animation.
+
+### Stockage cartographique
+
+Le cache se trouve uniquement dans Airview-data/map-tiles à côté du portable. Les tuiles restent au moins sept jours pour éviter de solliciter inutilement les services. Le nettoyage automatique vise 128 Mio et supprime les fichiers les plus anciens de plus de sept jours ; ce plafond est souple afin de respecter la conservation minimale. Seules les zones effectivement regardées sont demandées. Aucune région n’est préchargée. Fermer Airview puis supprimer son dossier supprime aussi son cache ; aucun service permanent n’est installé.

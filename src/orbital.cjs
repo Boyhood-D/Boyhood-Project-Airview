@@ -11,10 +11,11 @@ function sunPosition(date=new Date()) {
 }
 function aircraftKind(a) {
   const cat=String(a.category||''),model=String(a.model||'').toUpperCase();
-  if(cat==='A7'||cat==='8'||/^(H[0-9]|EC|AS[35]|R22|R44|R66|B06|B47|B407|S76)/.test(model))return 'helicopter';
+    if(cat==='A7'||cat==='8'||/^(H60|H64|H47|H53|H500|EC[0-9]|AS[35]|R22|R44|R66|B06|B47|B407|S76)/.test(model))return 'helicopter';
   if(cat==='B1'||cat==='9')return 'glider';
   if(cat==='B2'||cat==='10')return 'balloon';
-  if(cat==='A5'||cat==='6'||/^(A38|B74|A34|B77|B78|A35)/.test(model))return 'heavy';
+  if(/^(AT4|AT7|DH8|DHC|BE[1239]|B350|PC12|C208|SF34|JS[234])/.test(model))return 'turboprop';
+    if(cat==='A5'||cat==='6'||/^(A38|B74|A34|A33|B76|B77|B78|A35)/.test(model))return 'heavy';
   if(cat==='A1'||cat==='2'||/^(C1|C2|P28|SR2|DA4)/.test(model))return 'light';
   return 'jet';
 }

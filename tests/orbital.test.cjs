@@ -6,7 +6,7 @@ test('solar terminator follows solstices and UTC rotation',()=>{
  const evening=sunPosition(new Date('2026-06-21T18:00:00Z'));assert.ok(evening.lon< -88&&evening.lon> -92);
 });
 test('category-specific symbolic models and unknown types',()=>{
- assert.equal(aircraftKind({category:'8'}),'helicopter');assert.equal(aircraftKind({model:'A388'}),'heavy');assert.equal(aircraftKind({model:'C172'}),'light');assert.equal(aircraftKind({category:'B1'}),'glider');assert.equal(aircraftKind({}),'jet');
+ assert.equal(aircraftKind({category:'8'}),'helicopter');assert.equal(aircraftKind({model:'A388'}),'heavy');assert.equal(aircraftKind({model:'C172'}),'light');assert.equal(aircraftKind({category:'B1'}),'glider');assert.equal(aircraftKind({}),'jet');assert.equal(aircraftKind({model:'H25B'}),'jet');assert.equal(aircraftKind({model:'AT76'}),'turboprop');assert.equal(aircraftKind({model:'B763'}),'heavy');
 });
 test('ETA is unknown at missing or taxi speed, geometric otherwise',()=>{
  assert.equal(approximateEta(500,null,0),null);assert.equal(approximateEta(500,15,0),null);assert.equal(approximateEta(500,500,0),3600000);

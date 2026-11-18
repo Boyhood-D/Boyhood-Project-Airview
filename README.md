@@ -14,7 +14,7 @@ Airview est un poste d’observation pour les passionnés d’aviation et d’es
 | --- | --- |
 | Trafic mondial reçu par OpenSky | Satellites actifs publics et ISS |
 | Fiches d’identité et phases de vol estimées | Positions SGP4 et traces orbitales projetées |
-| Suivi, favoris et traînées de session | Carte épurée, imagerie NASA et relief coloré |
+| Suivi, favoris et traînées de session | Plan détaillé, satellite mondial et Suisse HD |
 | Recherche mondiale d’aéroports | Cycle jour/nuit et calques indépendants |
 | Filtres, relecture et exports CSV/JSON | Interface personnalisable et animations discrètes |
 
@@ -37,8 +37,13 @@ La couverture dépend des réseaux publics et de leurs quotas : Airview ne garan
 | OpenSky Network / ADS-B.lol | Positions et mesures aériennes disponibles |
 | ADSBdb | Identification complémentaire et routes indicatives |
 | CelesTrak | Éléments orbitaux publics |
+| OpenStreetMap / EOX / swisstopo | Fonds détaillés en ligne |
 | NASA / GEBCO / Natural Earth | Imagerie, relief et fond de carte |
 | OurAirports | Annuaire d’installations aéronautiques |
+
+**Version 2.1.2** : cartes détaillées au zoom, aérodromes et héliports affichés progressivement, interface simplifiée et démarrage visible dès l’ouverture de la fenêtre.
+
+L’imagerie mondiale Sentinel-2 (~10 m/pixel, mosaïque 2025) ne remplace pas la très haute résolution de Google Earth. Suisse HD couvre la Suisse ; hors de cette zone, choisir le plan ou le satellite mondial. Le calque EOX est réservé à un usage non commercial (CC BY-NC-SA 4.0).
 
 Voir les [sources et licences](THIRD_PARTY_NOTICES.md). Aucun service payant n’est activé.
 
