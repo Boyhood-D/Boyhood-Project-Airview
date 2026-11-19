@@ -1,3 +1,13 @@
+# Airview 2.3 quick changes
+
+**Combined** is the default traffic source. It merges a worldwide OpenSky report with a 250 NM ADS-B.lol report around the selected observation area. Each provider retains its own adaptive budget. The freshest observation wins for duplicate ICAO identifiers; available registration, type and country can be enriched from the other source. Public coverage is incomplete and not equivalent to a commercial tracking subscription.
+
+Space opens with the available catalogue visible. Selecting a satellite shows its details and predicted orbit while other objects remain visible. **Selected only** is optional. Use **Show all satellites** in the globe controls to clear selection and restore the overview. Earth hides objects on its far side; rotate the globe to explore them. The dated fallback is still limited to 100 popular objects when CelesTrak is unavailable.
+
+The new startup animation is skippable, respects reduced motion, and never waits for network data.
+
+---
+
 # Airview 2.2.1 user guide
 
 ## Installation and updates

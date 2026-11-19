@@ -14,3 +14,7 @@ assets/elevation.jpg
 assets/airports.json
 
 assets/satellites-bootstrap.json
+
+.npm-cache/
+.electron-cache/
+.temp/

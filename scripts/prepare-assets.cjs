@@ -10,7 +10,7 @@ function csv(text){const rows=[];let row=[],field='',quote=false;for(let i=0;i<t
 async function main(){
  const manifest={};
  const seedPath=path.join(dest,'satellites-bootstrap.json');if(!fs.existsSync(seedPath)){
- const r=await fetch('https://tle.ivanstanojevic.me/api/tle/?page-size=100',{signal:AbortSignal.timeout(20000),headers:{'User-Agent':'Airview/2.2.1 build'}});if(!r.ok)throw Error('Orbital starter download failed: HTTP '+r.status);const j=await r.json(),data=require('../src/catalog.cjs').parseTleRecords(j.member);fs.writeFileSync(seedPath,JSON.stringify({fetchedAt:Date.now(),source:'TLE API / Ivan Stanojevic (CelesTrak-derived)',partial:true,total:j.totalItems,data}));console.log(data.length+' dated starter satellites');}
+ const r=await fetch('https://tle.ivanstanojevic.me/api/tle/?page-size=100',{signal:AbortSignal.timeout(20000),headers:{'User-Agent':'Airview/2.3.0 build'}});if(!r.ok)throw Error('Orbital starter download failed: HTTP '+r.status);const j=await r.json(),data=require('../src/catalog.cjs').parseTleRecords(j.member);fs.writeFileSync(seedPath,JSON.stringify({fetchedAt:Date.now(),source:'TLE API / Ivan Stanojevic (CelesTrak-derived)',partial:true,total:j.totalItems,data}));console.log(data.length+' dated starter satellites');}
 
  for(const [name,url]of Object.entries(sources)){
   const file=path.join(dest,name);

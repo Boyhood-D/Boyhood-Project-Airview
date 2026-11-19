@@ -17,8 +17,8 @@ const pkg = require('../package.json');delete pkg.devDependencies;delete pkg.scr
 fs.writeFileSync(path.join(resources,'package.json'),JSON.stringify(pkg,null,2));
 for(const name of ['README.md','THIRD_PARTY_NOTICES.md','PERFORMANCE.md'])fs.copyFileSync(path.join(root,name),path.join(appDir,name));
 fs.copyFileSync(path.join(root,'LICENSE'),path.join(appDir,'LICENSE-Airview.txt'));
-fs.writeFileSync(path.join(appDir,'README-FIRST.txt'),'AIRVIEW 2.2.1\r\n\r\nExtract the entire ZIP, then open Airview.exe. Windows 10/11 x64. Free portable app, no account or installation. Preferences and caches stay in Airview-data beside the executable. The app is not commercially signed. Read README.md for sources and limitations. Personal observation only.\r\n','utf8');
-const archive=path.join(out,'Airview-2.2.1-Windows-x64.zip');
+fs.writeFileSync(path.join(appDir,'README-FIRST.txt'),'AIRVIEW 2.3.0\r\n\r\nExtract the entire ZIP, then open Airview.exe. Windows 10/11 x64. Free portable app, no account or installation. Preferences and caches stay in Airview-data beside the executable. The app is not commercially signed. Read README.md for sources and limitations. Personal observation only.\r\n','utf8');
+const archive=path.join(out,'Airview-2.3.0-Windows-x64.zip');
 execFileSync('tar',['-a','-c','-f',archive,'-C',out,path.basename(appDir)],{stdio:'inherit'});
 const sha=crypto.createHash('sha256').update(fs.readFileSync(archive)).digest('hex');
 fs.writeFileSync(archive+'.sha256',sha+'  '+path.basename(archive)+'\n');

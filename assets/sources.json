@@ -11,7 +11,7 @@
   },
   "airports.csv": {
     "url": "https://raw.githubusercontent.com/davidmegginson/ourairports-data/main/airports.csv",
-    "sha256": "8d406ed66ccc287f75b718a6681fa73d080ba61332bad47abf46bd3e21171558",
-    "bytes": 12761885
+    "sha256": "73b5022692ba9739ba61b66e1f82ea1410597991c64a9274c5d40e3753b72664",
+    "bytes": 12762398
   }
 }

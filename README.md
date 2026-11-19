@@ -9,7 +9,7 @@ Airview brings public aviation and orbital data into two focused workspaces. Sel
 
 | Flights | Space |
 | --- | --- |
-| Individual aircraft at every zoom, without count bubbles | Rotating Earth with astronomical day/night shading |
+| Combined global + nearby observations, without duplicate aircraft | Rotating Earth with astronomical day/night shading |
 | Identity cards and estimated flight phases | Calculated satellite positions and selected orbital trajectories |
 | Following, favorites and observed session trails | Search by name, NORAD or COSPAR |
 | Worldwide airport and airfield directory | ISS shortcut and isolated selection |
@@ -25,13 +25,13 @@ Windows 10/11 x64. No account or paid subscription. Internet is required for new
 
 To upgrade while preserving preferences and the traffic budget, close Airview and keep your existing **Airview-data** folder beside the new executable. All application data remain portable in that folder.
 
-## Version 2.2.1
+## Version 2.3.0
 
-This patch removes aircraft clustering, moves maintained project content and the interface to English, and repairs orbital startup. CelesTrak uses its recommended compressed CSV format. The portable includes a dated starter selection of **100 popular orbital objects**, obtained from the independent TLE API listed in the NASA API catalogue. The starter is a limited fallback, not the full active catalogue. Airview checks CelesTrak for the full catalogue when access permits, respects provider errors and preserves cached data.
+A quieter interface introduces a new Airview mark, refined navigation, a minimal launch animation, and clearer scrolling lists. Space now opens with all available satellites visible: ISS is no longer automatically selected and isolated. The overview button restores the full scene. Combined traffic is the default, merging worldwide OpenSky observations with the ADS-B.lol 250 NM area around the chosen map center. Aircraft are deduplicated by ICAO identity, use the freshest complete position, and retain available identity details. Each provider keeps its own quota and cooldown; one source can continue if the other fails. CelesTrak uses its recommended compressed CSV format. The portable includes a dated starter selection of **100 popular orbital objects**, obtained from the independent TLE API listed in the NASA API catalogue. The starter is a limited fallback, not the full active catalogue. Airview checks CelesTrak for the full catalogue when access permits, respects provider errors and preserves cached data.
 
 ## Honest data, visible limitations
 
-Traffic coverage depends on public receivers and quotas. Adaptive refresh spreads the remaining estimated budget across the UTC day with a reserve; it cannot provide permanent worldwide ten-second live data. Old observations remain labelled and dimmed. Motion is projected for at most 15 seconds. Flight phases are estimates, routes are indicative, and commercial schedules are unavailable.
+Traffic coverage depends on public receivers and quotas. Airview does not access the paid Flightradar24 API and cannot guarantee all commercial flights. Combined coverage adds the selected nearby area to the worldwide public report; it does not request every regional area. Adaptive refresh spreads the remaining estimated budget across the UTC day with a reserve; it cannot provide permanent worldwide ten-second live data. Old observations remain labelled and dimmed. Motion is projected for at most 15 seconds. Flight phases are estimates, routes are indicative, and commercial schedules are unavailable.
 
 Satellite positions are **SGP4 calculations**, not live telemetry. Element epoch, age and fallback notices remain visible. Public catalogues are incomplete and providers can be unavailable. Sentinel-2 global imagery is approximately 10 m/pixel; Switzerland HD covers Switzerland only. No Google Earth level of detail is promised worldwide.
 

@@ -19,3 +19,7 @@ The 2D map retains viewport-only tile requests, four-request concurrency, bounde
 ## Verification
 
 56 automated tests cover normalization, filters, exports, phases, projection, interpolation, reference SGP4 values, map caching, orbital geometry and occultation, startup, quota persistence, cross-midnight cooldown, CSV parsing, TLE conversion, offline starter availability and server-error backoff. The Windows portable is visually checked before publication. See the release notes for actual provider availability encountered during testing.
+
+## 2.3.0 changes
+
+Combined traffic uses a linear ICAO map to deduplicate two reports. It preserves source cooldowns instead of re-requesting cached observations, coalesces simultaneous combined calls, and expires combined observations after fifteen minutes. Background traffic polling pauses while the document is hidden. Rendering retains cached map surfaces, per-aircraft sprites, workers for SGP4 and Earth textures, viewport culling, bounded histories and 200 sidebar rows. UI transitions use opacity and transforms; reduced-motion preferences are respected.

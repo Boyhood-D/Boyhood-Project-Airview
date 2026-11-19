@@ -1,5 +1,14 @@
 # Release history
 
+## 2.3.0 — 19 November 2026
+
+- Minimal interface redesign, new Airview identity and bounded launch animation.
+- All available satellites visible by default; removed automatic ISS isolation and added an overview control.
+- Combined worldwide OpenSky and nearby ADS-B.lol observations with ICAO deduplication, freshest positions and identity enrichment.
+- Independent persisted quotas, coalesced combined requests and partial-outage recovery.
+- Background traffic polling pauses while hidden. Scrollable lists keep fixed controls visible.
+- 59 automated tests, including merge freshness, expired observations and source outages.
+
 ## 2.2.1 — 18 November 2026
 
 - Aircraft are rendered individually at every zoom. Numbered traffic clusters and their setting are removed.
